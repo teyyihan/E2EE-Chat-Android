@@ -1,4 +1,4 @@
-package com.teyyihan.e2ee_chat
+package com.teyyihan.core
 
 import org.junit.Test
 

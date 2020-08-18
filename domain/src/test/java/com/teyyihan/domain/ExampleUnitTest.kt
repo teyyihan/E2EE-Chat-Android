@@ -1,4 +1,4 @@
-package com.teyyihan.data
+package com.teyyihan.domain
 
 import org.junit.Test
 

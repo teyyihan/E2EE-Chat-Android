@@ -3,11 +3,14 @@ package com.teyyihan.data.util
 import com.teyyihan.data.util.Status.*
 
 
-sealed class Resource<out T>{
+sealed class Resource<out T> {
 
-    data class Success<out T>(val data : T) : Resource<T>()
+    data class Success<out T>(val value: T): Resource<T>()
 
-    data class Fail(val error : String) : Resource<String>()
+    data class GenericError(
+        val code: Int? = null,
+        val errorMessage: String? = null
+    ): Resource<Nothing>()
 
-    object Loading : Resource<Nothing>()
+    object NetworkError: Resource<Nothing>()
 }

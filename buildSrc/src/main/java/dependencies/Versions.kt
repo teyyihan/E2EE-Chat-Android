@@ -2,6 +2,7 @@ package dependencies
 
 object Versions {
 
+    const val retrofit = "2.9.0"
     const val room = "2.2.5"
     const val compile_sdk = 30
     const val minSdkVersion = 21
@@ -15,5 +16,6 @@ object Versions {
     const val junit = "4.12"
     const val hilt_gradle_plugin = "2.28-alpha"
     const val hilt_version = "2.28-alpha"
-
+    const val coroutines_version = "1.3.6"
+    const val moshi_version = "2.4.0"
 }
