@@ -1,0 +1,52 @@
+import dependencies.Dependencies
+import dependencies.Kapt
+import dependencies.TestDependencies
+import dependencies.Versions
+import dependencies.Application
+import dependencies.AndroidTestDependencies
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion Versions.compile_sdk
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId Application.applicationId
+        minSdkVersion Versions.minSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
+        versionCode Application.versionCode
+        versionName Application.versionName
+
+        testInstrumentationRunner AndroidTestDependencies.testInstrumentationRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation(project(":data"))
+
+    // Kotlin
+    implementation(Dependencies.kotlin_standard_lib)
+    implementation(Dependencies.android_core_ktx)
+
+    // Supoort
+    implementation(Dependencies.app_compat)
+    implementation(Dependencies.constraint_layout)
+    testImplementation(TestDependencies.junit)
+    androidTestImplementation(AndroidTestDependencies.ext_junit)
+    androidTestImplementation(AndroidTestDependencies.espresso)
+
+
+}
