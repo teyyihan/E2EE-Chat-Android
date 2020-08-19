@@ -13,4 +13,8 @@ class FriendLocalDataSourceImpl(
 
     override suspend fun insertFriend(friend: Friend): Long =
         friendDao.insertFriend(friend)
+
+    override suspend fun getFriend(friendID: String): Friend? {
+        return friendDao.getFriend(friendID)
+    }
 }

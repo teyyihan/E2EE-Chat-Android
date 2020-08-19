@@ -6,4 +6,6 @@ interface FriendLocalDataSource {
 
     suspend fun insertFriend(friend: Friend) : Long
 
+    suspend fun getFriend(friendID: String) : Friend?
+
 }

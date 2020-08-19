@@ -40,14 +40,9 @@ fun decryptMessage( message : ByteArray, secretKey: ByteArray) : String?{
     }
 }
 
-fun generateKeys() : KeyPair?{
-    return try {
-        val keyPair: KeyPair = keyPairGenerator.generateKeyPair()
-        keyPair
-    } catch (e: Exception) {
-        null
-    }
-}
+fun generateKeys() : KeyPair =
+    keyPairGenerator.generateKeyPair()
+
 
 fun generateSharedSecret(myPrivateKey : PrivateKey?, friendPublicKey : PublicKey?) : ByteArray?{
     return try {

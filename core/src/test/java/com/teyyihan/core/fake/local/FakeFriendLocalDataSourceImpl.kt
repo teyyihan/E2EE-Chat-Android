@@ -12,4 +12,8 @@ class FakeFriendLocalDataSourceImpl(
         return 1L
     }
 
+    override suspend fun getFriend(friendID: String): Friend? {
+        return map.get(friendID)
+    }
+
 }
