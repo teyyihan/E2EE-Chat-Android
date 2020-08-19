@@ -4,10 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.teyyihan.core.util.KeyAdapter
-import com.teyyihan.data.local.implementation.FriendDao
-import com.teyyihan.data.local.implementation.MessageDao
 import com.teyyihan.data.model.Friend
 import com.teyyihan.data.model.Message
+import com.teyyihan.data.local.implementation.FriendDao
+import com.teyyihan.data.local.implementation.MessageDao
+
+
 
 @Database(
     entities = [Message::class, Friend::class],

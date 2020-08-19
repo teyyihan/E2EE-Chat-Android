@@ -1,4 +1,4 @@
-package com.teyyihan.data.data.local
+package com.teyyihan.core.fake.local
 
 import com.teyyihan.data.local.abstraction.FriendLocalDataSource
 import com.teyyihan.data.model.Friend

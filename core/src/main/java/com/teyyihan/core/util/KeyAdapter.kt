@@ -6,25 +6,22 @@ import com.squareup.moshi.ToJson
 import java.security.PrivateKey
 import java.security.PublicKey
 
-class KeyAdapter(
-    private val keyUtil: KeyUtil
-) {
+class KeyAdapter {
 
     @TypeConverter
     @FromJson
-    fun publicKeyFromJson(str : String) = keyUtil.convertStringToPublicKey(str)
+    fun publicKeyFromJson(str : String) = str.convertToPublicKey()
 
     @TypeConverter
     @ToJson
-    fun publicKeyToJson(publicKey: PublicKey) = keyUtil.convertPublicKeyToString(publicKey)
+    fun publicKeyToJson(publicKey: PublicKey) = publicKey.convertToString()
 
     @TypeConverter
     @FromJson
-    fun privateKeyFromJson(str : String) = keyUtil.convertStringToPrivateKey(str)
+    fun privateKeyFromJson(str : String) = str.convertToPrivateKey()
 
     @TypeConverter
     @ToJson
-    fun privateKeyToJson(privateKey: PrivateKey) = keyUtil.convertPrivateKeyToString(privateKey)
-
+    fun privateKeyToJson(privateKey: PrivateKey) = privateKey.convertToString()
 
 }

@@ -2,6 +2,7 @@ import dependencies.AndroidTestDependencies
 import dependencies.Dependencies
 import dependencies.Kapt
 import dependencies.TestDependencies
+import dependencies.Versions
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -34,7 +35,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation(project(":data"))
+    api(project(":data"))
 
     implementation Dependencies.kotlin_standard_lib
     implementation Dependencies.android_core_ktx
@@ -44,9 +45,8 @@ dependencies {
     androidTestImplementation AndroidTestDependencies.ext_junit
     androidTestImplementation AndroidTestDependencies.espresso
 
-    // Hilt
-    implementation(Dependencies.hilt)
-    kapt Kapt.hilt_kapt
+    // Coroutines
+    implementation(Dependencies.coroutines_core)
 
     // Moshi
     implementation(Dependencies.moshi_retrofit)
@@ -55,5 +55,9 @@ dependencies {
     implementation(Dependencies.room)
     implementation(Dependencies.room_ktx)
     kapt(Kapt.room_kapt)
+
+    // Hilt
+    implementation(Dependencies.hilt)
+    kapt(Kapt.hilt_kapt)
 
 }

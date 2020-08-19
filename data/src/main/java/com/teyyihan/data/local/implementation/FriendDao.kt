@@ -6,9 +6,9 @@ import com.teyyihan.data.local.abstraction.FriendLocalDataSource
 import com.teyyihan.data.model.Friend
 
 @Dao
-interface FriendDao : FriendLocalDataSource {
+interface FriendDao {
 
     @Insert
-    override suspend fun insertFriend(friend: Friend): Long
+    suspend fun insertFriend(friend: Friend): Long
 
 }
