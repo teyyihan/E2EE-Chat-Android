@@ -51,4 +51,9 @@ dependencies {
     // Moshi
     implementation(Dependencies.moshi_retrofit)
 
+    // Room
+    implementation(Dependencies.room)
+    implementation(Dependencies.room_ktx)
+    kapt(Kapt.room_kapt)
+
 }

@@ -21,11 +21,11 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMoshi(keyAdapter: KeyAdapter) : Moshi =
-        Moshi.Builder()
-            .add(keyAdapter)
-            .build()
-
+    fun provideMessageRemoteDataSource(messageRemoteAPI: MessageRemoteAPI) : MessageRemoteDataSource{
+        return MessageRemoteDataSourceImpl(
+            messageRemoteAPI
+        )
+    }
 
     @Provides
     @Singleton
@@ -39,12 +39,14 @@ class NetworkModule {
             .create(MessageRemoteAPI::class.java)
     }
 
+
     @Provides
     @Singleton
-    fun provideMessageRemoteDataSource(messageRemoteAPI: MessageRemoteAPI) : MessageRemoteDataSource{
-        return MessageRemoteDataSourceImpl(
-            messageRemoteAPI
-        )
-    }
+    fun provideMoshi(keyAdapter: KeyAdapter) : Moshi =
+        Moshi.Builder()
+            .add(keyAdapter)
+            .build()
+
+
 
 }
