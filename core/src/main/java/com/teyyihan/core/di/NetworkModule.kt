@@ -2,6 +2,7 @@ package com.teyyihan.core.di
 
 import com.squareup.moshi.Moshi
 import com.teyyihan.core.Consts
+import com.teyyihan.core.util.KeyAdapter
 import com.teyyihan.data.remote.abstraction.MessageRemoteDataSource
 import com.teyyihan.data.remote.implementation.MessageRemoteAPI
 import com.teyyihan.data.remote.implementation.MessageRemoteDataSourceImpl
@@ -20,9 +21,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMoshi() : Moshi =
+    fun provideMoshi(keyAdapter: KeyAdapter) : Moshi =
         Moshi.Builder()
-            .add(KeyAdapter())
+            .add(keyAdapter)
             .build()
 
 
