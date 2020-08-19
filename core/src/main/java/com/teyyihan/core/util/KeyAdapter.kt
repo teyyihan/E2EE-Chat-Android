@@ -7,7 +7,7 @@ import java.security.PrivateKey
 import java.security.PublicKey
 
 class KeyAdapter(
-    private val keyUtil : KeyUtil
+    private val keyUtil: KeyUtil
 ) {
 
     @TypeConverter
@@ -25,5 +25,6 @@ class KeyAdapter(
     @TypeConverter
     @ToJson
     fun privateKeyToJson(privateKey: PrivateKey) = keyUtil.convertPrivateKeyToString(privateKey)
+
 
 }

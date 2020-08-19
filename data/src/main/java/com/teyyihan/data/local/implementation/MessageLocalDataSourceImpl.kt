@@ -13,4 +13,7 @@ class MessageLocalDataSourceImpl(
 {
     override suspend fun insertMessage(message: Message): Long =
         messageDao.insertMessage(message)
+
+    override suspend fun getMessage(messageID: String): Message? =
+        messageDao.getMessage(messageID)
 }

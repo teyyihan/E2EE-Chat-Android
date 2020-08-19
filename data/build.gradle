@@ -14,13 +14,11 @@ dependencies {
 
     // Room
     implementation(Dependencies.room)
-    implementation(Dependencies.room_ktx)
-    kapt(Kapt.room_kapt)
 
     // Retrofit
     implementation(Dependencies.retrofit)
 
-    // Supoort
+    // Test
     testImplementation TestDependencies.junit
 
     // Coroutines

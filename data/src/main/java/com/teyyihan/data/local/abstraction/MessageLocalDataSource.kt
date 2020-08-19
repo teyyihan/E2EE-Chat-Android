@@ -6,4 +6,6 @@ interface MessageLocalDataSource {
 
     suspend fun insertMessage(message : Message) : Long
 
+    suspend fun getMessage(messageID : String) : Message?
+
 }

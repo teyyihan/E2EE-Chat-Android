@@ -54,7 +54,7 @@ class KeyUtil(
         }
     }
 
-    private fun shortenSecretKey(longkey : ByteArray) : ByteArray?{
+    fun shortenSecretKey(longkey : ByteArray) : ByteArray?{
         return try {
             // Use 8 bytes (64 bits) for DES, 6 bytes (48 bits) for Blowfish
             val shortenedKey = ByteArray(8)
@@ -66,18 +66,21 @@ class KeyUtil(
         }
     }
 
-    fun convertPublicKeyToString(publicKey: PublicKey): String{
+
+    fun convertPublicKeyToString(publicKey: PublicKey) : String{
         val bytePubkey: ByteArray = publicKey.encoded
         val strKey: String = android.util.Base64.encodeToString(bytePubkey,0)
         return strKey
     }
 
-    fun convertStringToPublicKey(str: String): PublicKey{
+
+    fun convertStringToPublicKey(str: String) : PublicKey {
         val bytePubkey = android.util.Base64.decode(str,0)
         val factory: KeyFactory = KeyFactory.getInstance("DH")
         val publicKey = factory.generatePublic(X509EncodedKeySpec(bytePubkey)) as DHPublicKey
         return publicKey
     }
+
 
     fun convertPrivateKeyToString(privateKey: PrivateKey) : String{
         val byte_privkey: ByteArray = privateKey.encoded
@@ -85,12 +88,12 @@ class KeyUtil(
         return str_key
     }
 
-    fun convertStringToPrivateKey(str: String): PrivateKey{
+
+    fun convertStringToPrivateKey(str: String) : PrivateKey {
         val byte_privkey = android.util.Base64.decode(str,0)
         val factory: KeyFactory = KeyFactory.getInstance("DH")
         val private_key = factory.generatePrivate(PKCS8EncodedKeySpec(byte_privkey)) as DHPrivateKey
         return private_key
     }
-
 
 }

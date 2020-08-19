@@ -9,7 +9,7 @@ object Dependencies {
     const val room_ktx = "androidx.room:room-ktx:${Versions.room}"
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt_version}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    const val coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$${Versions.coroutines_version}"
+    const val coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines_version}"
     const val coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines_version}"
     const val moshi_retrofit = "com.squareup.retrofit2:converter-moshi:${Versions.moshi_version}"
 }

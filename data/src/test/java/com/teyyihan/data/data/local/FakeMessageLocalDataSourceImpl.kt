@@ -15,4 +15,8 @@ class FakeMessageLocalDataSourceImpl(
         return 1L
     }
 
+    override suspend fun getMessage(messageID: String): Message? {
+        return map.get(messageID)
+    }
+
 }

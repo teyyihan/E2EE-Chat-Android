@@ -2,6 +2,7 @@ package com.teyyihan.data
 
 import com.teyyihan.data.model.Message
 import com.teyyihan.data.data.local.FakeMessageLocalDataSourceImpl
+import com.teyyihan.data.local.abstraction.MessageLocalDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -10,7 +11,8 @@ import kotlin.collections.HashMap
 
 class LocalDataSourceTest {
 
-   private lateinit var fakeMessageLocalDataSourceImpl: FakeMessageLocalDataSourceImpl
+    //Testing
+   private lateinit var fakeMessageLocalDataSourceImpl: MessageLocalDataSource
 
     @Before
     fun setup(){
@@ -29,7 +31,7 @@ class LocalDataSourceTest {
         fakeMessageLocalDataSourceImpl.insertMessage(message)
 
         message._id?.let {
-            Assert.assertTrue(fakeMessageLocalDataSourceImpl.map.contains(it.toString()))
+            Assert.assertNotNull(fakeMessageLocalDataSourceImpl.getMessage(it.toString()))
         }
         return@runBlocking
     }
