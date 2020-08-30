@@ -1,7 +1,7 @@
 package com.teyyihan.data.local.implementation
 
 import com.teyyihan.data.local.abstraction.MessageLocalDataSource
-import com.teyyihan.data.model.Message
+import com.teyyihan.data.model.entity.Message
 
 /**
  *  This is the REAL implementation of messages

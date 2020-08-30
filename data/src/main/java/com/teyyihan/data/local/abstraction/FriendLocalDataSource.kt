@@ -1,6 +1,6 @@
 package com.teyyihan.data.local.abstraction
 
-import com.teyyihan.data.model.Friend
+import com.teyyihan.data.model.entity.Friend
 
 interface FriendLocalDataSource {
 

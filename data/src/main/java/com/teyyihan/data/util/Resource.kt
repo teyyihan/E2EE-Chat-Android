@@ -1,7 +1,5 @@
 package com.teyyihan.data.util
 
-import com.teyyihan.data.util.Status.*
-
 
 sealed class Resource<out T> {
 

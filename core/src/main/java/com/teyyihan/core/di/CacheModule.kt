@@ -23,26 +23,14 @@ class CacheModule {
 
     @Singleton
     @Provides
-    fun provideMessageLocalDataSource(messageDao: MessageDao): MessageLocalDataSource{
-        return MessageLocalDataSourceImpl(messageDao)
+    fun provideMessageLocalDataSource(database: MainDatabase): MessageLocalDataSource{
+        return MessageLocalDataSourceImpl(database.messageDao())
     }
 
     @Singleton
     @Provides
-    fun provideFriendLocalDataSource(friendDao: FriendDao): FriendLocalDataSource{
-        return FriendLocalDataSourceImpl(friendDao)
-    }
-
-    @Singleton
-    @Provides
-    fun provideMessageDao(database: MainDatabase) : MessageDao{
-        return database.messageDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideFriendDao(database: MainDatabase) : FriendDao{
-        return database.friendsDao()
+    fun provideFriendLocalDataSource(database: MainDatabase): FriendLocalDataSource{
+        return FriendLocalDataSourceImpl(database.friendsDao())
     }
 
     @Singleton

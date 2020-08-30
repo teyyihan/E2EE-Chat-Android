@@ -2,11 +2,10 @@ package com.teyyihan.core.fake
 
 
 import com.teyyihan.core.fake.local.FakeFriendLocalDataSourceImpl
-import com.teyyihan.core.util.convertToString
 import com.teyyihan.core.util.generateKeys
 import com.teyyihan.core.util.generateSharedSecret
 import com.teyyihan.data.local.abstraction.FriendLocalDataSource
-import com.teyyihan.data.model.Friend
+import com.teyyihan.data.model.entity.Friend
 import org.junit.Before
 import org.junit.Test
 import kotlinx.coroutines.runBlocking
@@ -14,7 +13,6 @@ import org.junit.Assert
 import java.security.KeyPair
 import java.security.PrivateKey
 import java.util.*
-import javax.crypto.SecretKey
 import kotlin.collections.HashMap
 
 
@@ -33,7 +31,7 @@ class FriendLocalDataSourceTest {
     }
 
     @Test
-    fun test_assert_friend_insertion() = runBlocking {
+    fun `Friend Assertion Test`() = runBlocking {
         val sharedSecretKey = generateSharedSecret(mySecretKey, friendKeyPair.public)
         val friendID = UUID.randomUUID().toString()
 
@@ -53,5 +51,6 @@ class FriendLocalDataSourceTest {
         Assert.assertNotNull(fakeFriendLocalDataSourceImpl.getFriend(friendID))
 
     }
+
 
 }

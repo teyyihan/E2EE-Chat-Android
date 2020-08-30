@@ -39,8 +39,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    api(project(":core"))
 
-//    implementation(project(":data"))
+    // Hilt
+    implementation(Dependencies.hilt)
+    implementation(Dependencies.hilt_lifecycle_viewmodel)
+    implementation(Dependencies.hilt_compiler)
+    kapt(Kapt.hilt_kapt)
 
     // Kotlin
     implementation(Dependencies.kotlin_standard_lib)
@@ -49,6 +54,7 @@ dependencies {
     // Supoort
     implementation(Dependencies.app_compat)
     implementation(Dependencies.constraint_layout)
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation(TestDependencies.junit)
     androidTestImplementation(AndroidTestDependencies.ext_junit)
     androidTestImplementation(AndroidTestDependencies.espresso)

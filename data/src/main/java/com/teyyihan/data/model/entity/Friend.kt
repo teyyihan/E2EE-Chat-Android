@@ -1,4 +1,4 @@
-package com.teyyihan.data.model
+package com.teyyihan.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

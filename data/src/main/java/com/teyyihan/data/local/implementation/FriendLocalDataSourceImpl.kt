@@ -1,7 +1,7 @@
 package com.teyyihan.data.local.implementation
 
 import com.teyyihan.data.local.abstraction.FriendLocalDataSource
-import com.teyyihan.data.model.Friend
+import com.teyyihan.data.model.entity.Friend
 
 /**
  *  This is the REAL implementation of friends

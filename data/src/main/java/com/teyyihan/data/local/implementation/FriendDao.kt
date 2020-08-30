@@ -3,8 +3,7 @@ package com.teyyihan.data.local.implementation
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.teyyihan.data.local.abstraction.FriendLocalDataSource
-import com.teyyihan.data.model.Friend
+import com.teyyihan.data.model.entity.Friend
 
 @Dao
 interface FriendDao {

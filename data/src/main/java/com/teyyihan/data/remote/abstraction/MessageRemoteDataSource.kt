@@ -1,10 +1,10 @@
 package com.teyyihan.data.remote.abstraction
 
-import com.teyyihan.data.model.MessageRemote
+import com.teyyihan.data.model.MessageRequest
 
 
 interface MessageRemoteDataSource {
 
-    suspend fun sendMessage(message: MessageRemote) : MessageRemote
+    suspend fun sendMessage(message: MessageRequest) : MessageRequest
 
 }

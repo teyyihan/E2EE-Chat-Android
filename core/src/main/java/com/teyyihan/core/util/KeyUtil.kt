@@ -74,11 +74,14 @@ fun PublicKey.convertToString() : String{
 }
 
 
-fun String.convertToPublicKey() : PublicKey{
-    val bytePubkey = android.util.Base64.decode(this,0)
-    val factory: KeyFactory = KeyFactory.getInstance("DH")
-    val publicKey = factory.generatePublic(X509EncodedKeySpec(bytePubkey)) as DHPublicKey
-    return publicKey
+fun String.convertToPublicKey() : PublicKey?{
+   return try {
+        val bytePubkey = android.util.Base64.decode(this,0)
+        val factory: KeyFactory = KeyFactory.getInstance("DH")
+        factory.generatePublic(X509EncodedKeySpec(bytePubkey)) as DHPublicKey
+    }catch (e:Exception){
+        null
+    }
 }
 
 
@@ -89,10 +92,13 @@ fun PrivateKey.convertToString() : String{
 }
 
 
-fun String.convertToPrivateKey() : PrivateKey{
-    val byte_privkey = android.util.Base64.decode(this,0)
-    val factory: KeyFactory = KeyFactory.getInstance("DH")
-    val private_key = factory.generatePrivate(PKCS8EncodedKeySpec(byte_privkey)) as DHPrivateKey
-    return private_key
+fun String.convertToPrivateKey() : PrivateKey?{
+    return try {
+        val byte_privkey = android.util.Base64.decode(this,0)
+        val factory: KeyFactory = KeyFactory.getInstance("DH")
+         factory.generatePrivate(PKCS8EncodedKeySpec(byte_privkey)) as DHPrivateKey
+    }catch (e:Exception){
+        null
+    }
 }
 

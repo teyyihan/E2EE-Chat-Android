@@ -1,7 +1,7 @@
 package com.teyyihan.data.local.abstraction
 
 
-import com.teyyihan.data.model.Message
+import com.teyyihan.data.model.entity.Message
 
 interface MessageLocalDataSource {
 

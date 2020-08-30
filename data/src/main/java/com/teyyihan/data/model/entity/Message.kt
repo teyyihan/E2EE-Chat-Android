@@ -1,4 +1,4 @@
-package com.teyyihan.data.model
+package com.teyyihan.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Message(
     @PrimaryKey(autoGenerate = true)
     var _id: Int? = null,
-    var friendID: String,
+    var fromID: String,
     var messageBody: String?,
     var date: String,
     var byMe : Boolean

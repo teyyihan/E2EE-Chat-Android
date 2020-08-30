@@ -1,7 +1,7 @@
 package com.teyyihan.core.fake.local
 
 import com.teyyihan.data.local.abstraction.FriendLocalDataSource
-import com.teyyihan.data.model.Friend
+import com.teyyihan.data.model.entity.Friend
 
 class FakeFriendLocalDataSourceImpl(
     private val map : HashMap<String, Friend>

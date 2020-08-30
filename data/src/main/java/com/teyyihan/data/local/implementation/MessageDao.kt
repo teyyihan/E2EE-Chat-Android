@@ -3,8 +3,7 @@ package com.teyyihan.data.local.implementation
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.teyyihan.data.local.abstraction.MessageLocalDataSource
-import com.teyyihan.data.model.Message
+import com.teyyihan.data.model.entity.Message
 
 @Dao
 interface MessageDao {

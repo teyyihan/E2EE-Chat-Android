@@ -1,9 +1,11 @@
 package com.teyyihan.data.remote.abstraction
 
-import com.teyyihan.data.model.Friend
+import com.teyyihan.data.model.entity.Friend
 
 interface FriendRemoteDataSource {
 
-    suspend fun getFriend(friendID : String) : Friend
+    suspend fun getFriendByID(friendID : String) : Friend
+
+    suspend fun getFriendByPhone(phoneNumber: String): Friend
 
 }
