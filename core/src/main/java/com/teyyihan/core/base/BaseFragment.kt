@@ -1,6 +1,8 @@
 package com.teyyihan.core.base
 
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 
-abstract class BaseFragment: Fragment() {
+@AndroidEntryPoint
+open class BaseFragment: Fragment() {
 }

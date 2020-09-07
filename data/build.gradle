@@ -1,5 +1,5 @@
 import dependencies.Dependencies
-import dependencies.Kapt
+import dependencies.Versions
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -8,10 +8,10 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -37,12 +37,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // Room
-    implementation(Dependencies.room)
-    implementation(Dependencies.room_ktx)
-    kapt(Kapt.room_kapt)
-
-    // Retrofit
-    implementation(Dependencies.retrofit)
+    // Moshi
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
 }

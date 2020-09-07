@@ -5,7 +5,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val room = "2.2.5"
     const val compile_sdk = 30
-    const val minSdkVersion = 21
+    const val minSdkVersion = 23
     const val targetSdkVersion = 30
     const val kotlin_version = "1.3.72"
     const val ktx_version = "1.3.1"
@@ -18,4 +18,5 @@ object Versions {
     const val hilt_version = "2.28-alpha"
     const val coroutines_version = "1.3.6"
     const val moshi_version = "2.4.0"
+    const val material_desing_version = "1.3.0-alpha01"
 }

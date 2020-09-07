@@ -1,6 +1,5 @@
 import dependencies.AndroidTestDependencies
 import dependencies.Dependencies
-import dependencies.Kapt
 import dependencies.TestDependencies
 import dependencies.Versions
 
@@ -10,12 +9,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'dagger.hilt.android.plugin'
 
+
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -30,12 +30,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
     api(project(":data"))
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+
+    // Moshi
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // Encrypted SP
+    implementation "androidx.security:security-crypto:1.1.0-alpha02"
 
     implementation Dependencies.kotlin_standard_lib
     implementation Dependencies.android_core_ktx
@@ -44,20 +63,5 @@ dependencies {
     testImplementation TestDependencies.junit
     androidTestImplementation AndroidTestDependencies.ext_junit
     androidTestImplementation AndroidTestDependencies.espresso
-
-    // Coroutines
-    implementation(Dependencies.coroutines_core)
-
-    // Moshi
-    implementation(Dependencies.moshi_retrofit)
-
-    // Room
-    implementation(Dependencies.room)
-    implementation(Dependencies.room_ktx)
-    kapt(Kapt.room_kapt)
-
-    // Hilt
-    implementation(Dependencies.hilt)
-    kapt(Kapt.hilt_kapt)
 
 }

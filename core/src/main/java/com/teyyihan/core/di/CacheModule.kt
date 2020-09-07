@@ -1,15 +1,13 @@
 package com.teyyihan.core.di
 
 import android.content.Context
-import androidx.room.Room
-import com.teyyihan.core.Consts
-import com.teyyihan.core.db.MainDatabase
-import com.teyyihan.data.local.abstraction.FriendLocalDataSource
-import com.teyyihan.data.local.abstraction.MessageLocalDataSource
-import com.teyyihan.data.local.implementation.FriendDao
-import com.teyyihan.data.local.implementation.FriendLocalDataSourceImpl
-import com.teyyihan.data.local.implementation.MessageDao
-import com.teyyihan.data.local.implementation.MessageLocalDataSourceImpl
+import android.content.SharedPreferences
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import com.squareup.moshi.Moshi
+import com.teyyihan.core.util.KeySerializerAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,28 +17,37 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class CacheModule {
+object CacheModule {
 
-    @Singleton
-    @Provides
-    fun provideMessageLocalDataSource(database: MainDatabase): MessageLocalDataSource{
-        return MessageLocalDataSourceImpl(database.messageDao())
-    }
+    private val keyGenParameterSpec = KeyGenParameterSpec.Builder(
+        MasterKey.DEFAULT_MASTER_KEY_ALIAS,
+        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+    ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+        .setKeySize(256)
+        .build()
 
-    @Singleton
     @Provides
-    fun provideFriendLocalDataSource(database: MainDatabase): FriendLocalDataSource{
-        return FriendLocalDataSourceImpl(database.friendsDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideMainDatabase(@ApplicationContext context: Context) : MainDatabase {
-        return  Room.databaseBuilder(
+    fun provideEncryptedSP(@ApplicationContext context: Context): SharedPreferences{
+        val masterKey = MasterKey.Builder(context)
+            .setKeyGenParameterSpec(keyGenParameterSpec)
+            .build()
+        return EncryptedSharedPreferences.create(
             context,
-            MainDatabase::class.java,
-            Consts.DATABASE_NAME
-        ).build()
+            "encrypted_sp",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
     }
+
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(KeySerializerAdapter())
+            .build()
+    }
+
 
 }

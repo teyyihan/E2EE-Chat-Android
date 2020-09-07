@@ -1,5 +1,4 @@
 include ':data'
 include ':core'
-include ':domain'
 include ':app'
 rootProject.name = "E2EE-Chat"

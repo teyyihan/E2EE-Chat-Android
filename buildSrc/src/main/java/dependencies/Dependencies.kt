@@ -14,4 +14,5 @@ object Dependencies {
     const val moshi_retrofit = "com.squareup.retrofit2:converter-moshi:${Versions.moshi_version}"
     const val hilt_lifecycle_viewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01"
     const val hilt_compiler = "androidx.hilt:hilt-compiler:1.0.0-alpha01"
+    const val material_design = "com.google.android.material:material:${Versions.material_desing_version}"
 }

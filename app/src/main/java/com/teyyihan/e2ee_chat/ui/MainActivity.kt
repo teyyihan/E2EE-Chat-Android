@@ -1,15 +1,27 @@
 package com.teyyihan.e2ee_chat.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.teyyihan.e2ee_chat.R
-import dagger.hilt.android.AndroidEntryPoint
+import com.teyyihan.core.base.BaseActivity
+import com.teyyihan.e2ee_chat.databinding.ActivityMainBinding
 
-@AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+
+    private val TAG = "teooo MainActivity"
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Logout listener
+        sessionManager.cachedUser.observe(this) { userLocal ->
+            if(userLocal == null || userLocal.isRefreshTokenExpired()){
+                //TODO: Logout and navigate to LoginFragment
+            }
+        }
 
     }
+
 }
