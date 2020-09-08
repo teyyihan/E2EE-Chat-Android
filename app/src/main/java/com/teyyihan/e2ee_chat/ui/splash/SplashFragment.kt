@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.teyyihan.core.base.BaseActivity
 import com.teyyihan.core.base.BaseFragment
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.e2ee_chat.R
 import com.teyyihan.e2ee_chat.databinding.FragmentSplashBinding
+import kotlinx.coroutines.delay
 
 
 class SplashFragment : BaseFragment() {
@@ -35,7 +37,10 @@ class SplashFragment : BaseFragment() {
 
     private fun sessionCheck(userLocal: UserLocal?) {
         if(userLocal == null || userLocal.isRefreshTokenExpired()){
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            lifecycleScope.launchWhenStarted {
+                delay(3000)
+                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            }
         }else{
             //TODO: Refresh access token, if failed, go to login fragment
             //findNavController().navigate(R.id.action_splashFragment_to_mainFragment)

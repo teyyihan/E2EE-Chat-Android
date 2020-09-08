@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">E2EE-Chat</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
 </resources>
