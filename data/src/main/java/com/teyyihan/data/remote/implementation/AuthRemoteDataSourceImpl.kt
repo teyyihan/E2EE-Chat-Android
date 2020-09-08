@@ -6,7 +6,7 @@ import com.teyyihan.data.model.response.TokenResponse
 import com.teyyihan.data.remote.abstraction.AuthRemoteDataSource
 
 class AuthRemoteDataSourceImpl(
-    private val singUpAPI: SingUpAPI,
+    private val signUpAPI: SignUpAPI,
     private val tokenAPI: TokenAPI
 ): AuthRemoteDataSource {
 
@@ -14,6 +14,6 @@ class AuthRemoteDataSourceImpl(
         = tokenAPI.token(loginRequest)
 
     override suspend fun signUp(signUpRequest: SignUpRequest): String
-        = singUpAPI.signUp(signUpRequest)
+        = signUpAPI.signUp(signUpRequest)
 
 }

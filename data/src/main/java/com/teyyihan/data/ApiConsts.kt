@@ -1,6 +1,6 @@
 package com.teyyihan.data
 
-object AuthConsts {
+object ApiConsts {
 
     const val KEYCLOAK_REALM = "E2EE"
 
