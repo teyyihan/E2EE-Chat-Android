@@ -4,10 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.squareup.moshi.Moshi
+import com.teyyihan.core.Consts
+import com.teyyihan.core.db.MainDatabase
 import com.teyyihan.core.util.KeySerializerAdapter
+import com.teyyihan.data.local.abstraction.FriendLocalDataSource
+import com.teyyihan.data.local.implementation.FriendDao
+import com.teyyihan.data.local.implementation.FriendLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +24,24 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object CacheModule {
+
+
+    @Provides
+    fun provideFriendLocalDataSource(db: MainDatabase): FriendLocalDataSource{
+        return FriendLocalDataSourceImpl(db.friendDao())
+    }
+
+
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): MainDatabase{
+//        return Room.databaseBuilder(
+//            context,
+//            MainDatabase::class.java,
+//            Consts.DATABASE_NAME
+//        )
+//            .build()
+        return MainDatabase.getInstance(context)
+    }
 
     private val keyGenParameterSpec = KeyGenParameterSpec.Builder(
         MasterKey.DEFAULT_MASTER_KEY_ALIAS,

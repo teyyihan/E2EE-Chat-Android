@@ -44,9 +44,12 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api(project(":data"))
+    api(project(":domain"))
 
     // Hilt
     implementation "com.google.dagger:hilt-android:2.28-alpha"
+    implementation 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
     kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 
     // Moshi
@@ -57,6 +60,12 @@ dependencies {
 
     // KTX
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha07")
+
+    // Room
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 
     implementation(Dependencies.kotlin_standard_lib)
     implementation(Dependencies.android_core_ktx)

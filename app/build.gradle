@@ -80,6 +80,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    kapt("com.github.bumptech.glide:compiler:4.11.0")
+
     // Kotlin
     implementation(Dependencies.kotlin_standard_lib)
     implementation(Dependencies.android_core_ktx)
@@ -95,8 +99,13 @@ dependencies {
     androidTestImplementation(AndroidTestDependencies.ext_junit)
     androidTestImplementation(AndroidTestDependencies.espresso)
 
-
     // Debug
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    // Room
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 
 }
