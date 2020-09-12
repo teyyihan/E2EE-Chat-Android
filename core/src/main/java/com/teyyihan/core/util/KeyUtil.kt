@@ -11,7 +11,7 @@ import kotlin.Exception
 
 object KeyUtil {
 
-    val keyPairGenerator = KeyPairGenerator.getInstance("DH").apply {
+    private val keyPairGenerator = KeyPairGenerator.getInstance("DH").apply {
         initialize(2048)
     }
 

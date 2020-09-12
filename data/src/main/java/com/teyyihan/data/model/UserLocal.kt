@@ -9,9 +9,9 @@ data class UserLocal(
     val username: String,
     val publicKey: PublicKey,
     val privateKey: PrivateKey,
-    val fcmToken: String,
+    var fcmToken: String,
     val token: TokenResponse
 ){
     fun isRefreshTokenExpired(): Boolean
-        = System.currentTimeMillis() >= (token.time + token.expires_in)
+        = System.currentTimeMillis() >= (token.refreshTokenSetTime + token.refresh_expires_in*1000)
 }

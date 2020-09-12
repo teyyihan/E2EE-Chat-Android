@@ -1,7 +1,6 @@
 import dependencies.AndroidTestDependencies
 import dependencies.Dependencies
 import dependencies.TestDependencies
-import dependencies.Versions
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -56,8 +55,11 @@ dependencies {
     // Encrypted SP
     implementation "androidx.security:security-crypto:1.1.0-alpha02"
 
-    implementation Dependencies.kotlin_standard_lib
-    implementation Dependencies.android_core_ktx
+    // KTX
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha07")
+
+    implementation(Dependencies.kotlin_standard_lib)
+    implementation(Dependencies.android_core_ktx)
     implementation Dependencies.app_compat
 
     testImplementation TestDependencies.junit

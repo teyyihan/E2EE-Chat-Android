@@ -2,6 +2,7 @@ package com.teyyihan.core.di
 
 import com.squareup.moshi.Moshi
 import com.teyyihan.data.ApiConsts
+import com.teyyihan.data.remote.implementation.ResourceAPI
 import com.teyyihan.data.remote.implementation.SignUpAPI
 import com.teyyihan.data.remote.implementation.TokenAPI
 import dagger.Module
@@ -16,6 +17,12 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object RemoteModule {
 
+
+    @Singleton
+    @Provides
+    fun provideResourceAPI(@SpringRetrofit retrofit: Retrofit): ResourceAPI{
+        return retrofit.create(ResourceAPI::class.java)
+    }
 
     @Singleton
     @Provides

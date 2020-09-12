@@ -5,47 +5,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.teyyihan.core.base.BaseActivity
 import com.teyyihan.core.base.BaseFragment
-import com.teyyihan.data.model.UserLocal
-import com.teyyihan.e2ee_chat.R
+import com.teyyihan.core.util.SessionManager
 import com.teyyihan.e2ee_chat.databinding.FragmentSplashBinding
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 
 class SplashFragment : BaseFragment() {
 
     private val TAG = "teooo SplashFragment"
 
+    @Inject
+    lateinit var sessionManager: SessionManager
     private lateinit var binding: FragmentSplashBinding
     private val viewModel by viewModels<SplashViewModel>()
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding= FragmentSplashBinding.inflate(inflater,container,false)
+        binding = FragmentSplashBinding.inflate(inflater, container, false)
 
-        (activity as BaseActivity).sessionManager.cachedUser.observe(viewLifecycleOwner){
-            sessionCheck(it)
-        }
+        /***
+         *  [by viewModels] acts lazy, this means in order to call init{} block
+         *  we need to call any function on ViewModel
+         */
+        viewModel.init()
 
         return binding.root
     }
 
-    private fun sessionCheck(userLocal: UserLocal?) {
-        if(userLocal == null || userLocal.isRefreshTokenExpired()){
-            lifecycleScope.launchWhenStarted {
-                delay(3000)
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-            }
-        }else{
-            //TODO: Refresh access token, if failed, go to login fragment
-            //findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
-        }
-    }
-
-
 }
+

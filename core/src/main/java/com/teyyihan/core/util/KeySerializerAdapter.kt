@@ -2,7 +2,6 @@ package com.teyyihan.core.util
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
-import com.teyyihan.data.model.response.TokenResponse
 import java.security.PrivateKey
 import java.security.PublicKey
 

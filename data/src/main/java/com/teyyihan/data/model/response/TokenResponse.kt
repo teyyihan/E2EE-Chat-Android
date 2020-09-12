@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 
 data class TokenResponse(
     @Json(name="access_token")
-    val access_token: String,
+    var access_token: String,
 
     @Json(name="expires_in")
     val expires_in: Int,
@@ -19,5 +19,7 @@ data class TokenResponse(
     @Json(name="token_type")
     val token_type: String,
 
-    val time: Long = System.currentTimeMillis()
+    var refreshTokenSetTime: Long = System.currentTimeMillis(),
+
+    var accessTokenSetTime: Long = System.currentTimeMillis()
 )

@@ -9,6 +9,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion Versions.compile_sdk
@@ -33,12 +34,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            resValue("string", "PORT_NUMBER", "8098")
+        }
     }
 
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
+
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -57,6 +63,8 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
     // Navigation
     def nav_version = "2.3.0"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -65,8 +73,9 @@ dependencies {
     // Moshi
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
-    // Fragment KTX
+    // KTX
     implementation("androidx.fragment:fragment-ktx:1.2.5")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha07")
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
@@ -86,5 +95,8 @@ dependencies {
     androidTestImplementation(AndroidTestDependencies.ext_junit)
     androidTestImplementation(AndroidTestDependencies.espresso)
 
+
+    // Debug
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
 }
