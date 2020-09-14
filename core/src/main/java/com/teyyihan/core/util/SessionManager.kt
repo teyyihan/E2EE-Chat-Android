@@ -3,15 +3,16 @@ package com.teyyihan.core.util
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.JsonAdapter
 import com.teyyihan.core.Consts
 import com.teyyihan.data.model.UserLocal
+import com.teyyihan.data.model.request.SignUpRequest
 import com.teyyihan.data.model.request.UpdateRequest
+import com.teyyihan.data.model.response.SignUpResponse
 import com.teyyihan.data.model.response.TokenResponse
 import com.teyyihan.data.remote.abstraction.AuthRemoteDataSource
-import com.teyyihan.data.remote.implementation.ResourceAPI
-import com.teyyihan.data.remote.implementation.TokenAPI
 import com.teyyihan.data.util.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,12 +25,13 @@ class SessionManager @Inject constructor(
 ) {
     private val TAG = "teooo SessionManager"
 
-    private val _authState: MutableLiveData<AuthState<UserLocal>> = MutableLiveData(AuthState.NothingRN)
+    private val _authState: MutableLiveData<AuthState<UserLocal>> =
+        MutableLiveData(AuthState.NothingRN)
     val authState: LiveData<AuthState<UserLocal>>
         get() = _authState
 
 
-    fun setAuthState(state: AuthState<UserLocal>){
+    fun setAuthState(state: AuthState<UserLocal>) {
         _authState.postValue(state)
     }
 
@@ -90,12 +92,25 @@ class SessionManager @Inject constructor(
         }
     }
 
+    suspend fun signUp(
+        username: String,
+        password: String,
+        fcmToken: String,
+        publicKey: String
+    ): Resource<SignUpResponse> {
+        return try {
+            val signUpResponse = authRemoteDataSource.signUp(
+                SignUpRequest(
+                    username, password, fcmToken, publicKey
+                )
+            )
+            Resource.Success(signUpResponse)
+        }catch (e: Exception){
+            Resource.GenericError(e, e.localizedMessage)
+        }
+    }
+
 }
-
-
-
-
-
 
 
 //@Singleton

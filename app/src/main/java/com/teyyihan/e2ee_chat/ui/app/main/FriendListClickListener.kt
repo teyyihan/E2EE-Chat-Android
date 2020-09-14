@@ -1,4 +1,4 @@
-package com.teyyihan.e2ee_chat.ui.main
+package com.teyyihan.e2ee_chat.ui.app.main
 
 import com.teyyihan.data.model.entity.Friend
 

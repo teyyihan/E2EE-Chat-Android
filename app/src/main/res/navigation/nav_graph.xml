@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.teyyihan.e2ee_chat.ui.splash.SplashFragment"
+        android:name="com.teyyihan.e2ee_chat.ui.auth.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.teyyihan.e2ee_chat.ui.login.LoginFragment"
+        android:name="com.teyyihan.e2ee_chat.ui.auth.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -31,12 +31,16 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.teyyihan.e2ee_chat.ui.main.MainFragment"
+        android:name="com.teyyihan.e2ee_chat.ui.app.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.teyyihan.e2ee_chat.ui.register.RegisterFragment"
+        android:name="com.teyyihan.e2ee_chat.ui.auth.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" /><action android:id="@+id/action_global_mainFragment" app:destination="@id/mainFragment"/>
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment><action android:id="@+id/action_global_mainFragment" app:destination="@id/mainFragment"/>
 </navigation>

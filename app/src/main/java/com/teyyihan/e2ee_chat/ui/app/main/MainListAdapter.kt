@@ -1,4 +1,4 @@
-package com.teyyihan.e2ee_chat.ui.main
+package com.teyyihan.e2ee_chat.ui.app.main
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

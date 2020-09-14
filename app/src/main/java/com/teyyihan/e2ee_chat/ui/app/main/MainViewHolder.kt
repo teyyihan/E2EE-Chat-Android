@@ -1,4 +1,4 @@
-package com.teyyihan.e2ee_chat.ui.main
+package com.teyyihan.e2ee_chat.ui.app.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

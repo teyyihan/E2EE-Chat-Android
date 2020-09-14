@@ -60,6 +60,9 @@ class MainActivity : BaseActivity() {
                     Log.d(TAG, "handleErrorAuthState: ERROR ON LOGIN 111111111111111111")
                 }
 
+                AuthStep.REGISTER -> {
+                    Log.d(TAG, "handleErrorAuthState: ERROR ON REGISTER ${it.errorMessage}")
+                }
             }
         }
     }

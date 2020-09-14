@@ -2,6 +2,7 @@ package com.teyyihan.data.remote.implementation
 
 import com.teyyihan.data.model.request.SignUpRequest
 import com.teyyihan.data.model.request.UpdateRequest
+import com.teyyihan.data.model.response.SignUpResponse
 import com.teyyihan.data.model.response.TokenResponse
 import com.teyyihan.data.remote.abstraction.AuthRemoteDataSource
 import retrofit2.http.Field
@@ -18,7 +19,7 @@ class AuthRemoteDataSourceImpl(
     override suspend fun refreshAccessToken(refreshToken: String)
         = tokenAPI.refreshAccessToken(refreshToken)
 
-    override suspend fun signUp(signUpRequest: SignUpRequest): String
+    override suspend fun signUp(signUpRequest: SignUpRequest): SignUpResponse
         = signUpAPI.signUp(signUpRequest)
 
     override suspend fun updateMe(bearerToken: String, updateRequest: UpdateRequest)

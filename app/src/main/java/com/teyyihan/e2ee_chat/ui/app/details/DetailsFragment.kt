@@ -1,4 +1,4 @@
-package com.teyyihan.e2ee_chat.ui.details
+package com.teyyihan.e2ee_chat.ui.app.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

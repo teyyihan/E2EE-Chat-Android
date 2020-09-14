@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.register.RegisterFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.auth.register.RegisterFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:gravity="center_horizontal"
+        style="@style/TextAppearance.MaterialComponents.Headline4"/>
 
-</FrameLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginFragment_username_textInput"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        android:hint="@string/username">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginFragment_username_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginFragment_password_textInput"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        app:endIconMode="password_toggle"
+        android:hint="@string/password">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginFragment_password_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/signup_fragment_signup_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/register"
+        android:textAllCaps="false"
+        android:layout_gravity="center_horizontal"
+        style="@style/Widget.MaterialComponents.Button.Icon" />
+
+</LinearLayout>

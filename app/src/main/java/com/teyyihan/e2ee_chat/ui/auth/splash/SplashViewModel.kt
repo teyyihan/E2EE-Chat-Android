@@ -1,4 +1,4 @@
-package com.teyyihan.e2ee_chat.ui.splash
+package com.teyyihan.e2ee_chat.ui.auth.splash
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject

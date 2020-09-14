@@ -1,11 +1,13 @@
-package com.teyyihan.e2ee_chat.ui.login
+package com.teyyihan.e2ee_chat.ui.auth.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.teyyihan.core.base.BaseFragment
+import com.teyyihan.e2ee_chat.R
 import com.teyyihan.e2ee_chat.databinding.FragmentLoginBinding
 
 
@@ -27,6 +29,10 @@ class LoginFragment : BaseFragment() {
                 binding.loginFragmentUsernameEditText.text.toString(),
                 binding.loginFragmentPasswordEditText.text.toString()
             )
+        }
+
+        binding.register.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         return binding.root
