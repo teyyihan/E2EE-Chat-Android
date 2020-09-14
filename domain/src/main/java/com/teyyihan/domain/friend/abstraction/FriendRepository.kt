@@ -9,4 +9,6 @@ interface FriendRepository {
 
     suspend fun getFriend(username: String): Friend
 
+    suspend fun insertFriend(friend: Friend): Long
+
 }

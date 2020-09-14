@@ -19,24 +19,19 @@ class LoginViewModel @ViewModelInject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val TAG = "teooo LoginViewModel"
-
     private val keyPair = KeyUtil.generateKeys()
 
 
     fun loginAttempt(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
-        setStatus(AuthState.Loading)
+        sessionManager.setAuthStateLoading()
 
         val tokenResponse = sessionManager.getToken(username, password)
         if(tokenResponse is Resource.Success){
 
-            /**
-             *  Updates both locally and remotely
-             */
             updateMe(tokenResponse, username)
 
         }else if(tokenResponse is Resource.GenericError){
-            setAuthStateError("Couldn't get tokens")
+            sessionManager.setAuthStateError(errorMessage = "Couldn't get tokens", authStep = AuthStep.LOGIN)
         }
     }
 
@@ -47,13 +42,13 @@ class LoginViewModel @ViewModelInject constructor(
 
         val fcmToken = getFcmToken()
         if (fcmToken == null) {
-            setAuthStateError("Couldn't get FCM token")
+            sessionManager.setAuthStateError(errorMessage = "Couldn't get FCM token", authStep = AuthStep.LOGIN)
             return
         }
 
         val updateServerResponse = updateMeOnServer(tokenResponse.value.access_token, fcmToken, keyPair)
         if (updateServerResponse is Resource.GenericError) {
-            setAuthStateError("Couldn't update you on server")
+            sessionManager.setAuthStateError(errorMessage = "Couldn't update you on server", authStep = AuthStep.LOGIN)
             return
         }
 
@@ -78,30 +73,13 @@ class LoginViewModel @ViewModelInject constructor(
         )
 
         withContext(Dispatchers.Main) {
-            updateMeOnCache(user)
+            sessionManager.saveUser(user)
         }
 
-        setAuthStateSuccess(user)
+        sessionManager.setAuthStateSuccess(user)
     }
 
 
-    private fun setAuthStateSuccess(value: UserLocal){
-        sessionManager.setAuthState(AuthState.Success(Event(value)))
-    }
-
-    private fun setAuthStateError(errorMessage: String, e: Exception? = null) {
-        sessionManager.setAuthState(AuthState.Error(Event(
-            AuthErrorModel(
-                errorMessage,
-                e,
-                AuthStep.LOGIN
-            )
-        )))
-    }
-
-    private fun updateMeOnCache(
-        userLocal: UserLocal
-    ) = sessionManager.saveUser(userLocal)
 
     private suspend fun updateMeOnServer(
         accessToken: String,
@@ -115,11 +93,5 @@ class LoginViewModel @ViewModelInject constructor(
     private suspend fun getFcmToken(): String? {
         return FirebaseInstanceId.getInstance().instanceId.awaitTask()?.token
     }
-
-
-    private suspend fun setStatus(status: AuthState<UserLocal>) = withContext(Dispatchers.Main) {
-        sessionManager.setAuthState(status)
-    }
-
 
 }

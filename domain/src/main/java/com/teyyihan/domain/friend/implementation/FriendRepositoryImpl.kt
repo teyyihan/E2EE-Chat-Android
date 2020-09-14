@@ -15,4 +15,7 @@ class FriendRepositoryImpl(
     override suspend fun getFriend(username: String): Friend
         = friendLocalDataSource.getFriend(username)
 
+    override suspend fun insertFriend(friend: Friend)
+        = friendLocalDataSource.insertFriend(friend)
+
 }

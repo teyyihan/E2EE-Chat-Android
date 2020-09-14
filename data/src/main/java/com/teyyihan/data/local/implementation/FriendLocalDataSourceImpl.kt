@@ -13,4 +13,7 @@ class FriendLocalDataSourceImpl(
 
     override suspend fun getFriend(username: String): Friend
         = friendDao.getFriend(username)
+
+    override fun insertFriend(friend: Friend)
+        = friendDao.insertFriend(friend)
 }

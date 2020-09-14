@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teyyihan.data.model.entity.Friend
 import com.teyyihan.e2ee_chat.databinding.ListItemFriendBinding
 
-class MainViewHolder(binding: ListItemFriendBinding): RecyclerView.ViewHolder(binding.root) {
+class MainViewHolder(private val binding: ListItemFriendBinding): RecyclerView.ViewHolder(binding.root) {
 
     val root = binding.root
 
     fun bind(friend: Friend) {
-        TODO("Bind friend")
+        binding.username.text = friend.friendUsername
     }
 
 

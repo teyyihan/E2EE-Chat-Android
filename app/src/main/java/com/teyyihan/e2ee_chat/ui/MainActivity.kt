@@ -52,12 +52,12 @@ class MainActivity : BaseActivity() {
             when(it.where){
 
                 AuthStep.CACHE -> {
-                    Log.d(TAG, "handleErrorAuthState: ERROR ON SPLASH 1111111111111111")
+                    Log.d(TAG, "handleErrorAuthState: ERROR ON SPLASH")
                     navController.navigate(R.id.action_splashFragment_to_loginFragment)
                 }
 
                 AuthStep.LOGIN -> {
-                    Log.d(TAG, "handleErrorAuthState: ERROR ON LOGIN 111111111111111111")
+                    Log.d(TAG, "handleErrorAuthState: ERROR ON LOGIN")
                 }
 
                 AuthStep.REGISTER -> {
@@ -73,7 +73,7 @@ class MainActivity : BaseActivity() {
 
     private fun handleSuccessAuthState(it: AuthState.Success<UserLocal>) {
         it.getValueOnce()?.let {
-            Log.d(TAG, "handleSuccessAuthState: SUCCESSFULLY LOGGED IN 111111111111111111")
+            Log.d(TAG, "handleSuccessAuthState: LOGGED IN")
             navController.navigate(R.id.action_global_mainFragment)
         }
     }

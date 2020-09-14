@@ -15,24 +15,22 @@ class RegisterViewModel @ViewModelInject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-
-
     private val keyPair = KeyUtil.generateKeys()
 
     fun registerFlow(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
 
+
         val fcmToken = getFcmToken()
         if (fcmToken == null) {
-            setAuthStateError("Couldn't get FCM token")
+            sessionManager.setAuthStateError(errorMessage = "Couldn't get FCM token", authStep = AuthStep.REGISTER)
             return@launch
         }
 
         val publicKeyStr = keyPair.public.convertToString()
         if (publicKeyStr == null) {
-            setAuthStateError("Something went wrong with public key")
+            sessionManager.setAuthStateError(errorMessage = "Something went wrong with public key", authStep = AuthStep.REGISTER)
             return@launch
         }
-
 
         val signUpResponse = sessionManager.signUp(username, password, fcmToken, publicKeyStr)
         if(signUpResponse is Resource.Success){
@@ -40,12 +38,13 @@ class RegisterViewModel @ViewModelInject constructor(
             getTokenAndUpdate(username, password, fcmToken)
 
         }else if(signUpResponse is Resource.GenericError){
-            setAuthStateError(signUpResponse.errorMessage, signUpResponse.exception)
+            sessionManager.setAuthStateError(signUpResponse.errorMessage,signUpResponse.exception, AuthStep.REGISTER)
         }
 
     }
 
     private suspend fun getTokenAndUpdate(username: String, password: String, fcmToken: String) {
+
         val tokenResponse = sessionManager.getToken(username, password)
         if(tokenResponse is Resource.Success){
 
@@ -59,11 +58,11 @@ class RegisterViewModel @ViewModelInject constructor(
                     accessTokenSetTime = System.currentTimeMillis()
                 }
             )
-            updateMeOnCache(user)
-            setAuthStateSuccess(user)
+            sessionManager.saveUser(user)
+            sessionManager.setAuthStateSuccess(user)
 
         }else if(tokenResponse is Resource.GenericError){
-            setAuthStateError(tokenResponse.errorMessage,tokenResponse.exception)
+            sessionManager.setAuthStateError(tokenResponse.errorMessage,tokenResponse.exception, AuthStep.REGISTER)
         }
     }
 
@@ -71,27 +70,5 @@ class RegisterViewModel @ViewModelInject constructor(
         return FirebaseInstanceId.getInstance().instanceId.awaitTask()?.token
     }
 
-    private fun updateMeOnCache(
-        userLocal: UserLocal
-    ) = sessionManager.saveUser(userLocal)
-
-
-    private fun setAuthStateSuccess(value: UserLocal) {
-        sessionManager.setAuthState(AuthState.Success(Event(value)))
-    }
-
-    private fun setAuthStateError(errorMessage: String?, e: java.lang.Exception? = null) {
-        sessionManager.setAuthState(
-            AuthState.Error(
-                Event(
-                    AuthErrorModel(
-                        errorMessage,
-                        e,
-                        AuthStep.REGISTER
-                    )
-                )
-            )
-        )
-    }
 
 }

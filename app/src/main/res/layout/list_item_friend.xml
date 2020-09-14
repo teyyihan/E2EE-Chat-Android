@@ -22,6 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="username"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/friend_image"

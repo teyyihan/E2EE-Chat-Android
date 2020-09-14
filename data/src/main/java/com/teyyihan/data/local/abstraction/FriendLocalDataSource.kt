@@ -10,4 +10,6 @@ interface FriendLocalDataSource {
 
     suspend fun getFriend(username: String): Friend
 
+    fun insertFriend(friend: Friend): Long
+
 }

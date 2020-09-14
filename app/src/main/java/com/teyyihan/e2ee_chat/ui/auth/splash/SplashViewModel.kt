@@ -13,8 +13,6 @@ class SplashViewModel @ViewModelInject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val TAG = "teooo SplashViewModel"
-
     init {
         checkSession()
     }
@@ -23,24 +21,20 @@ class SplashViewModel @ViewModelInject constructor(
     }
 
     private fun checkSession() = viewModelScope.launch {
-        sessionManager.setAuthState(AuthState.Loading)
+        sessionManager.setAuthStateLoading()
 
         val userLocal = sessionManager.getUserCache()
         if (userLocal != null) {
-            Log.d(TAG, "checkSession: cached user $userLocal")
             handleCachedUser(userLocal)
         } else {
-            Log.d(TAG, "checkSession: no cached user")
-            setAuthStateError("No cached user")
+            sessionManager.setAuthStateError(errorMessage = "No cached user", authStep = AuthStep.CACHE)
         }
     }
 
     private suspend fun handleCachedUser(userLocal: UserLocal) {
         if (userLocal.isRefreshTokenExpired()) {
-            Log.d(TAG, "handleCachedUser: expired")
             handleExpiredSession()
         } else {
-            Log.d(TAG, "handleCachedUser: valid")
             refreshToken(userLocal)
         }
     }
@@ -48,33 +42,17 @@ class SplashViewModel @ViewModelInject constructor(
     private suspend fun refreshToken(userLocal: UserLocal) {
         val refreshedUser = sessionManager.refreshAccessToken(userLocal)
         if (refreshedUser != null) {
-            Log.d(TAG, "refreshToken: refreshed token")
-            setAuthStateSuccess(refreshedUser)
+            sessionManager.setAuthStateSuccess(refreshedUser)
         } else {
-            Log.d(TAG, "refreshToken: failed to refresh token")
-            setAuthStateError("Failed to refresh token")
+            sessionManager.setAuthStateError(errorMessage = "Failed to refresh token", authStep = AuthStep.CACHE)
         }
 
     }
 
     private fun handleExpiredSession() {
-        Log.d(TAG, "handleExpiredSession: clear cache")
         sessionManager.clearUserCache()
-        setAuthStateError("Expired refresh token")
+        sessionManager.setAuthStateError(errorMessage = "Expired refresh token", authStep = AuthStep.CACHE)
     }
 
-    private fun setAuthStateSuccess(value: UserLocal){
-        sessionManager.setAuthState(AuthState.Success(Event(value)))
-    }
-
-    private fun setAuthStateError(errorMessage: String, e: Exception? = null) {
-        sessionManager.setAuthState(AuthState.Error(Event(
-            AuthErrorModel(
-                errorMessage,
-                e,
-                AuthStep.CACHE
-            )
-        )))
-    }
 
 }
