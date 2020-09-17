@@ -3,10 +3,8 @@ package com.teyyihan.core.di
 import com.squareup.moshi.Moshi
 import com.teyyihan.data.ApiConsts
 import com.teyyihan.data.remote.abstraction.AuthRemoteDataSource
-import com.teyyihan.data.remote.implementation.AuthRemoteDataSourceImpl
-import com.teyyihan.data.remote.implementation.ResourceAPI
-import com.teyyihan.data.remote.implementation.SignUpAPI
-import com.teyyihan.data.remote.implementation.TokenAPI
+import com.teyyihan.data.remote.abstraction.ResourceRemoteDataSource
+import com.teyyihan.data.remote.implementation.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +26,21 @@ object RemoteModule {
 
     @Singleton
     @Provides
+    fun provideResourceRemoteDataSource(resourceAPI: ResourceAPI): ResourceRemoteDataSource{
+        return ResourceRemoteDataSourceIml(resourceAPI)
+    }
+
+    @Singleton
+    @Provides
+    @KeycloakRetrofit
+    fun provideKeycloakRetrofit(retrofitBuilder: Retrofit.Builder): Retrofit{
+        return retrofitBuilder
+            .baseUrl(ApiConsts.KEYCLOAK_BASE_RUL)
+            .build()
+    }
+
+    @Singleton
+    @Provides
     fun provideResourceAPI(@SpringRetrofit retrofit: Retrofit): ResourceAPI{
         return retrofit.create(ResourceAPI::class.java)
     }
@@ -42,15 +55,6 @@ object RemoteModule {
     @Provides
     fun provideSignupAPI(@SpringRetrofit retrofit: Retrofit): SignUpAPI{
         return retrofit.create(SignUpAPI::class.java)
-    }
-
-    @Singleton
-    @Provides
-    @KeycloakRetrofit
-    fun provideKeycloakRetrofit(retrofitBuilder: Retrofit.Builder): Retrofit{
-        return retrofitBuilder
-            .baseUrl(ApiConsts.KEYCLOAK_BASE_RUL)
-            .build()
     }
 
     @Singleton

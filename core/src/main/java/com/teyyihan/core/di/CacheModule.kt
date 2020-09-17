@@ -12,8 +12,10 @@ import com.teyyihan.core.Consts
 import com.teyyihan.core.db.MainDatabase
 import com.teyyihan.core.util.KeySerializerAdapter
 import com.teyyihan.data.local.abstraction.FriendLocalDataSource
+import com.teyyihan.data.local.abstraction.MessageLocalDataSource
 import com.teyyihan.data.local.implementation.FriendDao
 import com.teyyihan.data.local.implementation.FriendLocalDataSourceImpl
+import com.teyyihan.data.local.implementation.MessageLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +27,11 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object CacheModule {
 
+
+    @Provides
+    fun provideMessageLocalDataSource(db: MainDatabase): MessageLocalDataSource{
+        return MessageLocalDataSourceImpl(db.messageDao())
+    }
 
     @Provides
     fun provideFriendLocalDataSource(db: MainDatabase): FriendLocalDataSource{

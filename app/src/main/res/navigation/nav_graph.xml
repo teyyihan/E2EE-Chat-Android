@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_mainFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -65,4 +68,9 @@
         android:name="com.teyyihan.e2ee_chat.ui.app.details.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.teyyihan.e2ee_chat.ui.app.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>

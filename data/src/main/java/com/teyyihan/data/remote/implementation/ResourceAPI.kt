@@ -1,9 +1,8 @@
 package com.teyyihan.data.remote.implementation
 
 import com.teyyihan.data.model.request.UpdateRequest
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import com.teyyihan.data.model.response.FriendResponse
+import retrofit2.http.*
 
 interface ResourceAPI {
 
@@ -12,5 +11,11 @@ interface ResourceAPI {
         @Header("Authorization") authHeader: String,
         @Body updateRequest: UpdateRequest
     )
+
+    @GET("/resource/user")
+    suspend fun getFriend(
+        @Header("Authorization") authHeader: String,
+        @Query("username") username: String
+    ): FriendResponse
 
 }

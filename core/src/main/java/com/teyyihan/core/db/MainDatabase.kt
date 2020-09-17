@@ -8,10 +8,12 @@ import androidx.room.TypeConverters
 import com.teyyihan.core.Consts
 import com.teyyihan.core.util.KeySerializerAdapter
 import com.teyyihan.data.local.implementation.FriendDao
+import com.teyyihan.data.local.implementation.MessageDao
 import com.teyyihan.data.model.entity.Friend
+import com.teyyihan.data.model.entity.Message
 
 @Database(
-    entities = [Friend::class],
+    entities = [Friend::class, Message::class],
     version = 4,
     exportSchema = false
 )
@@ -19,6 +21,7 @@ import com.teyyihan.data.model.entity.Friend
 abstract class MainDatabase : RoomDatabase() {
 
     abstract fun friendDao(): FriendDao
+    abstract fun messageDao(): MessageDao
 
 
     /**

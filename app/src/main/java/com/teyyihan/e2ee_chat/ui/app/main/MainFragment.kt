@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teyyihan.core.base.BaseFragment
 import com.teyyihan.data.model.entity.Friend
+import com.teyyihan.e2ee_chat.R
 import com.teyyihan.e2ee_chat.databinding.FragmentMainBinding
 
 
@@ -38,12 +39,13 @@ class MainFragment : BaseFragment() {
         }
 
         viewModel.getFriend().observe(viewLifecycleOwner){
-            Log.d(TAG, "onCreateView: friends $it")
+            Log.d(TAG, "onCreateView: friends ${it.size}")
             _adapter.submitList(it)
         }
 
         binding.fab.setOnClickListener {
-            viewModel.insertFriend()
+            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+//            viewModel.insertFriend()
         }
 
         return binding.root
@@ -53,7 +55,6 @@ class MainFragment : BaseFragment() {
     private val characterListener = object : FriendListClickListener{
         override fun onFriendClicked(friend: Friend) {
             Log.d(TAG, "onFriendClicked: friend clicked ${friend.friendUsername}")
-
             val action = MainFragmentDirections.actionMainFragmentToChatFragment(friend)
             findNavController().navigate(action)
         }
