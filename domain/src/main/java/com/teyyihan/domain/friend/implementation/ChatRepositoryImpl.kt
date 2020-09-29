@@ -3,7 +3,8 @@ package com.teyyihan.domain.friend.implementation
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.paging.*
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.teyyihan.data.local.abstraction.MessageLocalDataSource
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.model.entity.FriendRepresentation
@@ -58,12 +59,8 @@ class ChatRepositoryImpl(
 
     }
 
-    override fun getMessageWithFriend(friendUsername: String): Flow<PagingData<Message>> {
-        return Pager(
-            config = PagingConfig(pageSize = 20)
-        ){
-            messageLocalDataSource.getMessagesWithFriend(friendUsername)
-        }.flow
+    override fun getMessagesWithFriend(friendUsername: String): LiveData<PagedList<Message>> {
+        return messageLocalDataSource.getMessagesWithFriend(friendUsername).toLiveData(pageSize = 20)
     }
 
 }

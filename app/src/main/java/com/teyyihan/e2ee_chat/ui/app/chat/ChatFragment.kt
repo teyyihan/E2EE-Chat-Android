@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teyyihan.core.base.BaseFragment
 import com.teyyihan.e2ee_chat.databinding.FragmentChatBinding
-import kotlinx.coroutines.flow.collectLatest
 
 
 class ChatFragment : BaseFragment() {
@@ -21,12 +19,7 @@ class ChatFragment : BaseFragment() {
     private lateinit var binding: FragmentChatBinding
     private val viewModel by viewModels<ChatViewModel>()
     private val args: ChatFragmentArgs by navArgs()
-    private lateinit var adapter : ChatAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        adapter = ChatAdapter()
-    }
+    private lateinit var adapter: ChatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,26 +27,43 @@ class ChatFragment : BaseFragment() {
     ): View? {
         binding = FragmentChatBinding.inflate(inflater,container,false)
 
-        setupRecyclerView()
+        setupRecycler()
 
         binding.sendButton.setOnClickListener {
-            // TODO: Check empty messages
-            viewModel.sendMessage(binding.textInput.text.toString(), args.friend!!)
-        }
-
-        lifecycleScope.launchWhenResumed {
-            viewModel.getMessagesLive(args.friend?.friendUsername)?.collectLatest {
-                adapter.submitData(it)
+            checkMessage(binding.textInput.text.toString())?.let{ message->
+                args.friend?.let { friend->
+                    viewModel.sendMessage(message, friend)
+                }
+                clearTextInput()
             }
         }
 
+        viewModel.getMessagesWithFriend(args.friend?.friendUsername)?.observe(viewLifecycleOwner){
+            Log.d(TAG, "onCreateView: paging list $it")
+            adapter.submitList(it)
+            binding.messageList.scrollToPosition(0)
+        }
 
         return binding.root
     }
 
-    private fun setupRecyclerView() {
+    private fun clearTextInput() {
+        binding.textInput.text?.clear()
+    }
+
+    private fun setupRecycler() {
+        adapter = ChatAdapter()
         binding.messageList.layoutManager = LinearLayoutManager(requireContext())
         binding.messageList.adapter = adapter
+    }
+
+
+    private fun checkMessage(message: String): String? {
+        return if(message.isEmpty() || message.isBlank()){
+            null
+        }else{
+            message
+        }
     }
 
 }
