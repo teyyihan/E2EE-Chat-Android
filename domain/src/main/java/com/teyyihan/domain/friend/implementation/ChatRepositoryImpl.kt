@@ -2,6 +2,8 @@ package com.teyyihan.domain.friend.implementation
 
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.paging.*
 import com.teyyihan.data.local.abstraction.MessageLocalDataSource
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.model.entity.FriendRepresentation
@@ -12,6 +14,7 @@ import com.teyyihan.data.util.Resource
 import com.teyyihan.domain.friend.abstraction.ChatRepository
 import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.domain.friend.util.safeApiCall
+import kotlinx.coroutines.flow.Flow
 
 class ChatRepositoryImpl(
     private val messageLocalDataSource: MessageLocalDataSource,
@@ -19,7 +22,7 @@ class ChatRepositoryImpl(
     private val sessionManager: SessionManager
 ) : ChatRepository {
 
-    private val TAG = "teooo ChatRepositoryImpl"
+    private val TAG = "teooo ChatRepository"
 
     override suspend fun sendMessage(
         text: String,
@@ -53,6 +56,14 @@ class ChatRepositoryImpl(
 
         return remoteResponse
 
+    }
+
+    override fun getMessageWithFriend(friendUsername: String): Flow<PagingData<Message>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20)
+        ){
+            messageLocalDataSource.getMessagesWithFriend(friendUsername)
+        }.flow
     }
 
 }

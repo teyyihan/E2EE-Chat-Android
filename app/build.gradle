@@ -104,9 +104,14 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // Room
-    def room_version = "2.2.5"
+    def room_version = "2.3.0-alpha02"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+
+    // Pagination
+    def paging_version = "3.0.0-alpha06"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
 }
