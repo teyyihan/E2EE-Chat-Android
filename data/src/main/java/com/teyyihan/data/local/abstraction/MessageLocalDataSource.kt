@@ -5,6 +5,6 @@ import com.teyyihan.data.model.entity.Message
 
 interface MessageLocalDataSource {
 
-//    fun getMessagesWithFriend(username: String): PagingSource<Int, Message>
+    suspend fun insertMessage(message: Message): Long
 
 }

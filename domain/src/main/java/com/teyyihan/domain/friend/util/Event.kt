@@ -1,4 +1,4 @@
-package com.teyyihan.core.util
+package com.teyyihan.domain.friend.util
 
 open class Event<out T>(private val content: T) {
 

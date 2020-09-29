@@ -1,4 +1,4 @@
-package com.teyyihan.core.util
+package com.teyyihan.domain.friend.util
 
 import android.content.SharedPreferences
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.JsonAdapter
-import com.teyyihan.core.Consts
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.model.request.SignUpRequest
 import com.teyyihan.data.model.request.UpdateRequest
@@ -14,6 +13,9 @@ import com.teyyihan.data.model.response.SignUpResponse
 import com.teyyihan.data.model.response.TokenResponse
 import com.teyyihan.data.remote.abstraction.AuthRemoteDataSource
 import com.teyyihan.data.util.Resource
+import com.teyyihan.domain.friend.Consts
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,6 +32,13 @@ class SessionManager @Inject constructor(
     val authState: LiveData<AuthState<UserLocal>>
         get() = _authState
 
+    fun getUser(): UserLocal? {
+        return try {
+            (_authState.value as AuthState.Success).value.peekContent()
+        }catch (e: Exception){
+            null
+        }
+    }
 
     fun getUserCache(): UserLocal? {
         val userStr = encryptedSharedPreferences.getString(Consts.USER_SP, null)
@@ -43,14 +52,14 @@ class SessionManager @Inject constructor(
         }
     }
 
-    fun saveUser(userLocal: UserLocal) {
+    suspend fun saveUser(userLocal: UserLocal) = withContext(Dispatchers.Main){
         encryptedSharedPreferences.edit(commit = true) {
             putString(Consts.USER_SP, userAdapter.toJson(userLocal))
         }
     }
 
     suspend fun refreshAccessToken(userLocal: UserLocal): UserLocal? {
-        return try {
+       return try {
             val newToken = authRemoteDataSource.refreshAccessToken(userLocal.token.refresh_token)
             val updatedUser = userLocal.apply {
                 token.access_token = newToken.access_token
@@ -106,29 +115,27 @@ class SessionManager @Inject constructor(
         }
     }
 
-    fun setAuthStateLoading() {
-        Log.d(TAG, "setAuthStateLoading: loading")
-        _authState.postValue(AuthState.Loading)
+    suspend fun setAuthStateLoading() = withContext(Dispatchers.Main) {
+        _authState.value = AuthState.Loading
     }
 
-    fun setAuthStateSuccess(value: UserLocal) {
-        Log.d(TAG, "setAuthStateSuccess: ${value.username}")
-        _authState.postValue(AuthState.Success(Event(value)))
+    suspend fun setAuthStateSuccess(value: UserLocal) = withContext(Dispatchers.Main) {
+        _authState.value = AuthState.Success(Event(value))
     }
 
-    fun setAuthStateError(errorMessage: String?, e: Exception? = null, authStep: AuthStep) {
-        Log.d(TAG, "setAuthStateError: where=${authStep.name}  message=$errorMessage  exception=${e?.localizedMessage}")
-        _authState.postValue(
-            AuthState.Error(
-                Event(
-                    AuthErrorModel(
-                        errorMessage,
-                        e,
-                        authStep
+    suspend fun setAuthStateError(errorMessage: String?, e: Exception? = null, authStep: AuthStep) =
+        withContext(Dispatchers.Main) {
+            _authState.postValue(
+                AuthState.Error(
+                    Event(
+                        AuthErrorModel(
+                            errorMessage,
+                            e,
+                            authStep
+                        )
                     )
                 )
             )
-        )
-    }
+        }
 
 }

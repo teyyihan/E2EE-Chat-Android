@@ -4,16 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.squareup.moshi.Moshi
-import com.teyyihan.core.Consts
 import com.teyyihan.core.db.MainDatabase
 import com.teyyihan.core.util.KeySerializerAdapter
 import com.teyyihan.data.local.abstraction.FriendLocalDataSource
 import com.teyyihan.data.local.abstraction.MessageLocalDataSource
-import com.teyyihan.data.local.implementation.FriendDao
 import com.teyyihan.data.local.implementation.FriendLocalDataSourceImpl
 import com.teyyihan.data.local.implementation.MessageLocalDataSourceImpl
 import dagger.Module

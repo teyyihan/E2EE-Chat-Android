@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.teyyihan.core.base.BaseFragment
-import com.teyyihan.core.util.SessionManager
+import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.e2ee_chat.databinding.FragmentSplashBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

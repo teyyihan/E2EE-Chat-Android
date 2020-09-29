@@ -7,6 +7,8 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.teyyihan.core.util.*
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.util.Resource
+import com.teyyihan.domain.friend.util.AuthStep
+import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.e2ee_chat.util.awaitTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +20,6 @@ class RegisterViewModel @ViewModelInject constructor(
     private val keyPair = KeyUtil.generateKeys()
 
     fun registerFlow(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
-
 
         val fcmToken = getFcmToken()
         if (fcmToken == null) {
@@ -34,9 +35,7 @@ class RegisterViewModel @ViewModelInject constructor(
 
         val signUpResponse = sessionManager.signUp(username, password, fcmToken, publicKeyStr)
         if(signUpResponse is Resource.Success){
-
             getTokenAndUpdate(username, password, fcmToken)
-
         }else if(signUpResponse is Resource.GenericError){
             sessionManager.setAuthStateError(signUpResponse.errorMessage,signUpResponse.exception, AuthStep.REGISTER)
         }

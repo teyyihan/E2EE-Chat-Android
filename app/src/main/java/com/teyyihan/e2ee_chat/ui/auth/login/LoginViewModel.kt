@@ -8,11 +8,11 @@ import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.model.request.UpdateRequest
 import com.teyyihan.data.model.response.TokenResponse
 import com.teyyihan.data.util.Resource
+import com.teyyihan.domain.friend.util.AuthStep
+import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.e2ee_chat.util.awaitTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 import java.security.KeyPair
 
 class LoginViewModel @ViewModelInject constructor(
@@ -27,9 +27,7 @@ class LoginViewModel @ViewModelInject constructor(
 
         val tokenResponse = sessionManager.getToken(username, password)
         if(tokenResponse is Resource.Success){
-
             updateMe(tokenResponse, username)
-
         }else if(tokenResponse is Resource.GenericError){
             sessionManager.setAuthStateError(errorMessage = "Couldn't get tokens", authStep = AuthStep.LOGIN)
         }
@@ -39,8 +37,7 @@ class LoginViewModel @ViewModelInject constructor(
         tokenResponse: Resource.Success<TokenResponse>,
         username: String
     ) {
-
-        val fcmToken = getFcmToken()
+        val fcmToken = FirebaseInstanceId.getInstance().instanceId.awaitTask()?.token
         if (fcmToken == null) {
             sessionManager.setAuthStateError(errorMessage = "Couldn't get FCM token", authStep = AuthStep.LOGIN)
             return
@@ -60,21 +57,18 @@ class LoginViewModel @ViewModelInject constructor(
         username: String,
         fcmToken: String
     ) {
-        val tokenResponseValue = tokenResponse.value.apply {
-            refreshTokenSetTime = System.currentTimeMillis()
-            accessTokenSetTime = System.currentTimeMillis()
-        }
         val user = UserLocal(
             username,
             keyPair.public,
             keyPair.private,
             fcmToken,
-            tokenResponseValue
+            tokenResponse.value.apply {
+                refreshTokenSetTime = System.currentTimeMillis()
+                accessTokenSetTime = System.currentTimeMillis()
+            }
         )
 
-        withContext(Dispatchers.Main) {
-            sessionManager.saveUser(user)
-        }
+        sessionManager.saveUser(user)
 
         sessionManager.setAuthStateSuccess(user)
     }
@@ -90,8 +84,5 @@ class LoginViewModel @ViewModelInject constructor(
         UpdateRequest(keyPair.public.convertToString(), fcmToken)
     )
 
-    private suspend fun getFcmToken(): String? {
-        return FirebaseInstanceId.getInstance().instanceId.awaitTask()?.token
-    }
 
 }

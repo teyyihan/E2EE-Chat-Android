@@ -7,6 +7,6 @@ interface ResourceRemoteDataSource {
 
     suspend fun getFriend(token: String, username: String): FriendResponse
 
-    suspend fun sendMessage(message: MessageRequest)
+    suspend fun sendMessage(token: String, message: MessageRequest)
 
 }

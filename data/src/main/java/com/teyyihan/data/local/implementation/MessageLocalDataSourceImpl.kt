@@ -8,7 +8,7 @@ class MessageLocalDataSourceImpl(
     private val messageDao: MessageDao
 ): MessageLocalDataSource {
 
-//    override fun getMessagesWithFriend(username: String): PagingSource<Int, Message>
-//        = messageDao.getMessagesWithFriend(username)
+    override suspend fun insertMessage(message: Message): Long
+        = messageDao.insertMessage(message)
 
 }

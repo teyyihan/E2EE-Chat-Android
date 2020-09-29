@@ -1,10 +1,18 @@
 package com.teyyihan.domain.friend.abstraction
 
-import androidx.paging.PagingSource
-import com.teyyihan.data.model.entity.Message
+import com.teyyihan.data.model.UserLocal
+import com.teyyihan.data.model.entity.FriendRepresentation
+import com.teyyihan.data.util.Resource
 
 interface ChatRepository {
 
-//    fun getMessagesWithFriend(username: String): PagingSource<Int, Message>
+
+    suspend fun sendMessage(
+        text: String,
+        encryptedText: ByteArray,
+        friend: FriendRepresentation,
+        userLocal: UserLocal
+    ): Resource<Unit?>
+
 
 }

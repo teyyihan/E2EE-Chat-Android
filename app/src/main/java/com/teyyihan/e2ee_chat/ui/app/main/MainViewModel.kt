@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teyyihan.core.util.KeyUtil
 import com.teyyihan.data.model.entity.Friend
+import com.teyyihan.data.model.entity.FriendRepresentation
 import com.teyyihan.domain.friend.abstraction.FriendRepository
 import com.teyyihan.domain.friend.implementation.FriendRepositoryImpl
 import kotlinx.coroutines.Dispatchers
@@ -19,21 +20,10 @@ class MainViewModel @ViewModelInject constructor(
 
     private val TAG = "teooo MainViewModel"
 
-    fun getFriend(): LiveData<List<Friend>> {
+    fun getFriend(): LiveData<List<FriendRepresentation>> {
         return friendRepository.getAllFriends()
     }
 
-    fun insertFriend() = viewModelScope.launch(Dispatchers.IO) {
-        val keyPair = KeyUtil.generateKeys()
-        Log.d(TAG, "insertFriend: end ${friendRepository.insertFriend(
-            Friend(
-                UUID.randomUUID().toString(),
-                keyPair.public,
-                ByteArray(1),
-            )
-        )}")
-
-    }
 
 
 }

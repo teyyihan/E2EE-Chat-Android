@@ -1,4 +1,4 @@
-package com.teyyihan.core.util
+package com.teyyihan.domain.friend.util
 
 
 sealed class AuthState<out T> {

@@ -7,5 +7,8 @@ import androidx.room.PrimaryKey
 data class Message(
     @PrimaryKey(autoGenerate = true)
     var _id: Int = 0,
-    val friendName: String
+    val friendUsername: String,
+    val body: String,
+    val date: Long,
+    val byMe: Boolean
 )

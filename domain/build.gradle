@@ -23,6 +23,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -46,4 +56,13 @@ dependencies {
     // Pagination
     def paging_version = "3.0.0-alpha06"
     implementation "androidx.paging:paging-runtime:$paging_version"
+
+    // Moshi
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    implementation 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
+    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 }

@@ -60,7 +60,7 @@
             app:destination="@id/detailsFragment" />
         <argument
             android:name="friend"
-            app:argType="com.teyyihan.data.model.entity.Friend"
+            app:argType="com.teyyihan.data.model.entity.FriendRepresentation"
             app:nullable="true" />
     </fragment>
     <fragment

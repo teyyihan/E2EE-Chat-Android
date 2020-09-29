@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teyyihan.core.base.BaseFragment
 import com.teyyihan.data.model.entity.Friend
+import com.teyyihan.data.model.entity.FriendRepresentation
 import com.teyyihan.e2ee_chat.R
 import com.teyyihan.e2ee_chat.databinding.FragmentMainBinding
 
@@ -28,6 +29,21 @@ class MainFragment : BaseFragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater,container,false)
 
+        setupRecyclerView()
+
+        viewModel.getFriend().observe(viewLifecycleOwner){
+            Log.d(TAG, "onCreateView: friends ${it.map { it.friendUsername }}")
+            _adapter.submitList(it)
+        }
+
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+        }
+
+        return binding.root
+    }
+
+    private fun setupRecyclerView() {
         _adapter = MainListAdapter().apply {
             friendListClickListener = characterListener
         }
@@ -37,23 +53,11 @@ class MainFragment : BaseFragment() {
             setHasFixedSize(true)
             adapter = _adapter
         }
-
-        viewModel.getFriend().observe(viewLifecycleOwner){
-            Log.d(TAG, "onCreateView: friends ${it.size}")
-            _adapter.submitList(it)
-        }
-
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
-//            viewModel.insertFriend()
-        }
-
-        return binding.root
     }
 
 
     private val characterListener = object : FriendListClickListener{
-        override fun onFriendClicked(friend: Friend) {
+        override fun onFriendClicked(friend: FriendRepresentation) {
             Log.d(TAG, "onFriendClicked: friend clicked ${friend.friendUsername}")
             val action = MainFragmentDirections.actionMainFragmentToChatFragment(friend)
             findNavController().navigate(action)

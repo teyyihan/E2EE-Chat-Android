@@ -2,19 +2,14 @@ package com.teyyihan.e2ee_chat.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.liveData
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.teyyihan.core.base.BaseActivity
-import com.teyyihan.core.util.AuthState
-import com.teyyihan.core.util.AuthStep
+import com.teyyihan.domain.friend.util.AuthState
+import com.teyyihan.domain.friend.util.AuthStep
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.e2ee_chat.R
 import com.teyyihan.e2ee_chat.databinding.ActivityMainBinding
-import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : BaseActivity() {
 
@@ -69,6 +64,7 @@ class MainActivity : BaseActivity() {
 
     private fun handleLoadingAuthState(it: AuthState.Loading) {
         Log.d(TAG, "handleLoadingAuthState: loading somewhere")
+        Log.d(TAG, "handleLoadingAuthState: ${sessionManager.authState.value}")
     }
 
     private fun handleSuccessAuthState(it: AuthState.Success<UserLocal>) {

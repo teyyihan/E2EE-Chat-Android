@@ -22,4 +22,13 @@ data class TokenResponse(
     var refreshTokenSetTime: Long = System.currentTimeMillis(),
 
     var accessTokenSetTime: Long = System.currentTimeMillis()
-)
+){
+
+    fun accessTokenExpired(): Boolean {
+        if(System.currentTimeMillis() >= (expires_in + accessTokenSetTime) ){
+            return true
+        }
+        return false
+    }
+
+}

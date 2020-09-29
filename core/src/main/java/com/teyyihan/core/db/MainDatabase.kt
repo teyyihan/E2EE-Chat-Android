@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.teyyihan.core.Consts
 import com.teyyihan.core.util.KeySerializerAdapter
 import com.teyyihan.data.local.implementation.FriendDao
 import com.teyyihan.data.local.implementation.MessageDao
@@ -14,7 +13,7 @@ import com.teyyihan.data.model.entity.Message
 
 @Database(
     entities = [Friend::class, Message::class],
-    version = 4,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(KeySerializerAdapter::class)
@@ -25,7 +24,7 @@ abstract class MainDatabase : RoomDatabase() {
 
 
     /**
-     *  Will be called from ViewmodelModule DI
+     *  Will be called from ViewModelModule DI
      */
     companion object {
 
@@ -40,7 +39,7 @@ abstract class MainDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,
-                MainDatabase::class.java, Consts.DATABASE_NAME)
+                MainDatabase::class.java, "main_database")
                 .build()
     }
 }

@@ -1,15 +1,58 @@
 package com.teyyihan.domain.friend.implementation
 
-import androidx.paging.PagingSource
+
+import android.util.Log
 import com.teyyihan.data.local.abstraction.MessageLocalDataSource
+import com.teyyihan.data.model.UserLocal
+import com.teyyihan.data.model.entity.FriendRepresentation
 import com.teyyihan.data.model.entity.Message
+import com.teyyihan.data.model.request.MessageRequest
+import com.teyyihan.data.remote.abstraction.ResourceRemoteDataSource
+import com.teyyihan.data.util.Resource
 import com.teyyihan.domain.friend.abstraction.ChatRepository
+import com.teyyihan.domain.friend.util.SessionManager
+import com.teyyihan.domain.friend.util.safeApiCall
 
 class ChatRepositoryImpl(
-    private val messageLocalDataSource: MessageLocalDataSource
-): ChatRepository{
+    private val messageLocalDataSource: MessageLocalDataSource,
+    private val resourceRemoteDataSource: ResourceRemoteDataSource,
+    private val sessionManager: SessionManager
+) : ChatRepository {
 
-//    override fun getMessagesWithFriend(username: String): PagingSource<Int, Message>
-//        = messageLocalDataSource.getMessagesWithFriend(username)
+    private val TAG = "teooo ChatRepositoryImpl"
+
+    override suspend fun sendMessage(
+        text: String,
+        encryptedText: ByteArray,
+        friend: FriendRepresentation,
+        userLocal: UserLocal
+    ): Resource<Unit?> {
+
+        // Insert into db
+        val localResponse = messageLocalDataSource.insertMessage(
+            Message(
+                friendUsername = friend.friendUsername,
+                body = text,
+                date = System.currentTimeMillis(),
+                byMe = true
+            )
+        )
+        Log.d(TAG, "sendMessage: message inserted if 1 then successful => $localResponse")
+
+        // Send to remote server
+        val remoteResponse = safeApiCall(sessionManager) {
+            resourceRemoteDataSource.sendMessage(
+                it,
+                MessageRequest(
+                    toUsername = friend.friendUsername,
+                    fromUsername = userLocal.username,
+                    cipherText = encryptedText
+                )
+            )
+        }
+
+        return remoteResponse
+
+    }
 
 }

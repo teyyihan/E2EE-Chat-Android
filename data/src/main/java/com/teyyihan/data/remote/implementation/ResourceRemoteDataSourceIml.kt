@@ -11,8 +11,7 @@ class ResourceRemoteDataSourceIml(
     override suspend fun getFriend(token: String, username: String): FriendResponse
         = resourceAPI.getFriend(token, username)
 
-    override suspend fun sendMessage(message: MessageRequest) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun sendMessage(token: String, message: MessageRequest)
+        = resourceAPI.sendMessage(token, message)
 
 }

@@ -1,4 +1,4 @@
-package com.teyyihan.core.util
+package com.teyyihan.domain.friend.util
 
 data class AuthErrorModel(
     val errorMessage: String?,

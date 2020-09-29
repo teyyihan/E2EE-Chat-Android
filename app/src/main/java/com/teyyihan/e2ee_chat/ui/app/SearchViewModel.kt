@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teyyihan.core.util.AuthState
+import com.teyyihan.domain.friend.util.AuthState
 import com.teyyihan.core.util.KeyUtil
-import com.teyyihan.core.util.SessionManager
+import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.core.util.convertToPublicKey
 import com.teyyihan.data.model.entity.Friend
 import com.teyyihan.data.model.response.FriendResponse

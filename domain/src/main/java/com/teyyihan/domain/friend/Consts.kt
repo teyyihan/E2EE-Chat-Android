@@ -1,4 +1,4 @@
-package com.teyyihan.core
+package com.teyyihan.domain.friend
 
 
 object Consts {
