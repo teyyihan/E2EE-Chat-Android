@@ -2,6 +2,7 @@ package com.teyyihan.e2ee_chat.ui
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.teyyihan.core.base.BaseActivity
@@ -17,6 +18,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val viewModel by viewModels<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 AuthStep.LOGIN -> {
-                    Log.d(TAG, "handleErrorAuthState: ERROR ON LOGIN")
+                    Log.d(TAG, "handleErrorAuthState: ERROR ON LOGIN ${it.errorMessage} ${it.exception?.localizedMessage} ${it.where}")
                 }
 
                 AuthStep.REGISTER -> {

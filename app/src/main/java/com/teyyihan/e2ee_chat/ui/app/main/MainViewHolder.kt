@@ -13,12 +13,8 @@ class MainViewHolder(private val binding: ListItemFriendBinding): RecyclerView.V
 
     fun bind(friend: FriendRepresentation) {
         binding.username.text = friend.friendUsername
+        binding.lastMessage.text = friend.lastMessage
     }
-
-//    fun bind(friend: Friend) {
-//        binding.username.text = friend.friendUsername
-//    }
-
 
     companion object {
         fun create(

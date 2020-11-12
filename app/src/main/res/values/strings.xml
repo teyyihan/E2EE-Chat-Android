@@ -6,4 +6,6 @@
     <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="send">Send</string>
+    <string name="search_for_friend">Search for friend</string>
+    <string name="search">Search</string>
 </resources>

@@ -67,9 +67,9 @@ class SessionManager @Inject constructor(
             }
             saveUser(updatedUser)
             updatedUser
-        } catch (e: Exception) {
-            null
-        }
+       } catch (e: Exception) {
+           null
+       }
     }
 
     suspend fun getToken(username: String, password: String): Resource<TokenResponse> {
@@ -77,6 +77,7 @@ class SessionManager @Inject constructor(
             val tokenResponse = authRemoteDataSource.getToken(username, password)
             Resource.Success(tokenResponse)
         } catch (e: Exception) {
+            Log.d(TAG, "getToken: nedeeeeeeeeeeeeen ${e.localizedMessage}")
             Resource.GenericError(errorMessage = e.localizedMessage)
         }
     }
@@ -138,4 +139,13 @@ class SessionManager @Inject constructor(
             )
         }
 
+
+    fun getCurrentBearerToken(): String?{
+        val user = getUser()
+        return if(user != null){
+            "Bearer ${user.token.access_token}"
+        }else{
+            null
+        }
+    }
 }

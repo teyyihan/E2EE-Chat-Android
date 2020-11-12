@@ -14,8 +14,6 @@ sealed class AuthState<out T> {
     object Loading : AuthState<Nothing>()
 
     object NothingRN :  AuthState<Nothing>()
-
-
 }
 
 

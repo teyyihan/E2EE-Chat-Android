@@ -1,5 +1,6 @@
 package com.teyyihan.e2ee_chat.ui.auth.login
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.firebase.iid.FirebaseInstanceId
@@ -13,19 +14,24 @@ import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.e2ee_chat.util.awaitTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.security.KeyPair
 
 class LoginViewModel @ViewModelInject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val keyPair = KeyUtil.generateKeys()
+    private val TAG = "teooo LoginViewModel"
 
 
     fun loginAttempt(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d(TAG, "loginAttempt: 11111111111111")
         sessionManager.setAuthStateLoading()
+        Log.d(TAG, "loginAttempt: 222222222222")
 
         val tokenResponse = sessionManager.getToken(username, password)
+        Log.d(TAG, "loginAttempt: 3333333333333")
+
         if(tokenResponse is Resource.Success){
             updateMe(tokenResponse, username)
         }else if(tokenResponse is Resource.GenericError){
@@ -37,6 +43,13 @@ class LoginViewModel @ViewModelInject constructor(
         tokenResponse: Resource.Success<TokenResponse>,
         username: String
     ) {
+        Log.d(TAG, "updateMe: 5555555555555555")
+        var keyPair : KeyPair
+        withContext(Dispatchers.Default){
+            keyPair = KeyUtil.generateKeys()
+        }
+        Log.d(TAG, "updateMe: 66666666666666")
+
         val fcmToken = FirebaseInstanceId.getInstance().instanceId.awaitTask()?.token
         if (fcmToken == null) {
             sessionManager.setAuthStateError(errorMessage = "Couldn't get FCM token", authStep = AuthStep.LOGIN)
@@ -49,13 +62,14 @@ class LoginViewModel @ViewModelInject constructor(
             return
         }
 
-        updateMeLocally(tokenResponse, username, fcmToken)
+        updateMeLocally(tokenResponse, username, fcmToken,keyPair)
     }
 
     private suspend fun updateMeLocally(
         tokenResponse: Resource.Success<TokenResponse>,
         username: String,
-        fcmToken: String
+        fcmToken: String,
+        keyPair: KeyPair
     ) {
         val user = UserLocal(
             username,

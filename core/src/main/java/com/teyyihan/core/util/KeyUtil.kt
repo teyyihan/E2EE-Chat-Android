@@ -3,13 +3,17 @@ package com.teyyihan.core.util
 
 import android.util.Base64
 import android.util.Log
+import com.teyyihan.data.util.Resource
+import java.math.BigInteger
 import java.security.*
+import java.security.spec.AlgorithmParameterSpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 import javax.crypto.KeyAgreement
 import javax.crypto.interfaces.DHPrivateKey
 import javax.crypto.interfaces.DHPublicKey
+import javax.crypto.spec.DHParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.Exception
 
@@ -22,7 +26,7 @@ object KeyUtil {
     private val cipher: Cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
 
     private val keyPairGenerator = KeyPairGenerator.getInstance("DH").apply {
-        initialize(2048)
+        initialize(1024)
     }
 
     fun String.encryptMessage(secretKey : ByteArray) : ByteArray?{
@@ -36,19 +40,32 @@ object KeyUtil {
         }
     }
 
-    fun decryptMessage( message : ByteArray, secretKey: ByteArray) : String?{
+    fun decryptMessage( message : ByteArray, secretKey: ByteArray) : Resource<String>{
         return try {
             val secretKeySpec = SecretKeySpec(secretKey,0,16,"AES")
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
-            String(cipher.doFinal(message))
+            Resource.Success(String(cipher.doFinal(message)))
         } catch (e: Exception) {
-            Log.d(TAG, "decryptMessage: ${e.localizedMessage}")
-            null
+            Resource.GenericError(e,e.localizedMessage)
         }
     }
 
     fun generateKeys() : KeyPair{
         return  keyPairGenerator.generateKeyPair()
+    }
+
+    fun generateKeysWithParams(p: BigInteger, g: BigInteger): KeyPair{
+        val keyPairGenerator1 = KeyPairGenerator.getInstance("DH").apply {
+            initialize(DHParameterSpec(p,g))
+        }
+        return keyPairGenerator1.generateKeyPair()
+    }
+
+    fun generateKeysWithParamsTest(): KeyPair{
+        val keyPairGenerator1 = KeyPairGenerator.getInstance("DH").apply {
+            initialize(1024)
+        }
+        return keyPairGenerator1.generateKeyPair()
     }
 
     fun generateSharedSecret(myPrivateKey : PrivateKey?, friendPublicKey : PublicKey?) : ByteArray?{
@@ -57,6 +74,7 @@ object KeyUtil {
             keyAgreement.doPhase(friendPublicKey, true)
             shortenSecretKey(keyAgreement.generateSecret())
         } catch (e: java.lang.Exception) {
+            Log.d(TAG, "generateSharedSecret: asıl burda noluyo ${e.localizedMessage}")
             null
         }
     }

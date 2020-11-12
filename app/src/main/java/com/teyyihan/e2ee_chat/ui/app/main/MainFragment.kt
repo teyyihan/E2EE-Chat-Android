@@ -32,12 +32,12 @@ class MainFragment : BaseFragment() {
         setupRecyclerView()
 
         viewModel.getFriend().observe(viewLifecycleOwner){
-            Log.d(TAG, "onCreateView: friends ${it.map { it.friendUsername }}")
+            Log.d(TAG, "onCreateView: friends ${it}")
             _adapter.submitList(it)
         }
 
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_searchFriendBottomSheet)
         }
 
         return binding.root

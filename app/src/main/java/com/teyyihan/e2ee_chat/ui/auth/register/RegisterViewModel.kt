@@ -1,5 +1,6 @@
 package com.teyyihan.e2ee_chat.ui.auth.register
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,7 @@ class RegisterViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val keyPair = KeyUtil.generateKeys()
+    private val TAG = "teooo RegisterViewModel"
 
     fun registerFlow(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
 
@@ -46,7 +48,6 @@ class RegisterViewModel @ViewModelInject constructor(
 
         val tokenResponse = sessionManager.getToken(username, password)
         if(tokenResponse is Resource.Success){
-
             val user = UserLocal(
                 username,
                 keyPair.public,
