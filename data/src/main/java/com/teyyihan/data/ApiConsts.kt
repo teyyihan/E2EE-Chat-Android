@@ -9,6 +9,6 @@ object ApiConsts {
 
     const val KEYCLOAK_REALM = "E2EE"
     const val CLIENT_ID = "frontend"
-    const val CLIENT_SECRET = "8ee654cb-5873-453d-b61f-d787dc69e7a6"
+    const val CLIENT_SECRET = "23998e3f-c57b-4590-afe8-69533c2126f8"
 
 }

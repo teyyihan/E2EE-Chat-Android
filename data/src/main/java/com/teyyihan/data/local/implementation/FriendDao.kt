@@ -12,7 +12,7 @@ import com.teyyihan.data.model.entity.FriendRepresentation
 interface FriendDao {
 
     @Query("""
-        SELECT friend_table.friendUsername,friend_table.friendPublicKey,friend_table.sharedSecretKey,message_table.body,message_table.date,message_table.byMe 
+        SELECT friend_table.friendUsername,friend_table.friendPublicKey,message_table.body,message_table.date,message_table.byMe 
         FROM friend_table 
         LEFT JOIN (SELECT * FROM message_table GROUP BY friendUsername ORDER BY date DESC) as message_table 
         ON friend_table.friendUsername = message_table.friendUsername

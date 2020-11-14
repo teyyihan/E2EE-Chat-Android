@@ -10,6 +10,7 @@ import com.teyyihan.data.local.implementation.FriendDao
 import com.teyyihan.data.local.implementation.MessageDao
 import com.teyyihan.data.model.entity.Friend
 import com.teyyihan.data.model.entity.Message
+import com.teyyihan.domain.friend.Consts
 
 @Database(
     entities = [Friend::class, Message::class],
@@ -39,7 +40,7 @@ abstract class MainDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,
-                MainDatabase::class.java, "main_database")
+                MainDatabase::class.java, Consts.DATABASE_NAME)
                 .build()
     }
 }

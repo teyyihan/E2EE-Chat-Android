@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.squareup.moshi.Moshi
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.model.response.TokenResponse
+import com.teyyihan.data.util.KeyUtil
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

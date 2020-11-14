@@ -45,11 +45,11 @@ class SplashFragment : BaseFragment() {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
 
 
-//        /***
-//         *  [by viewModels] acts lazy, this means in order to call init{} block
-//         *  we need to call any function on ViewModel
-//         */
-//        viewModel.init()
+        /***
+         *  [by viewModels] acts lazy, this means in order to call init{} block
+         *  we need to call any function on ViewModel
+         */
+        viewModel.init()
 
         return binding.root
     }

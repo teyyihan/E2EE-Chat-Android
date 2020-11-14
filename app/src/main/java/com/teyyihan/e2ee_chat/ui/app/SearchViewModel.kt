@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.teyyihan.domain.friend.util.AuthState
-import com.teyyihan.core.util.KeyUtil
+import com.teyyihan.data.util.KeyUtil
 import com.teyyihan.domain.friend.util.SessionManager
-import com.teyyihan.core.util.convertToPublicKey
 import com.teyyihan.data.model.entity.Friend
 import com.teyyihan.data.model.response.FriendResponse
 import com.teyyihan.data.remote.abstraction.ResourceRemoteDataSource
@@ -59,22 +57,16 @@ class SearchViewModel @ViewModelInject constructor(
     }
 
     private suspend fun insertFriend(friendRes: FriendResponse): Boolean {
-        val friendPublicKey = friendRes.publicKey.convertToPublicKey()
-        val myPrivateKey = sessionManager.getUser()?.privateKey
-        val sharedSecretKey = if(myPrivateKey != null) KeyUtil.generateSharedSecret(myPrivateKey,friendPublicKey) else null
-        Log.d(TAG, "insertFriend: noluyo ya ${friendPublicKey == null} ${myPrivateKey == null} ${sharedSecretKey == null}")
-        if(friendPublicKey != null && myPrivateKey != null && sharedSecretKey != null){
-            val friend =  Friend(
-                friendRes.username,
-                friendPublicKey,
-                sharedSecretKey
-            )
-            Log.d(TAG, "insertFriend: inserted... i think ")
-            friendRepository.insertFriend(friend)
-            return true
-        }
-        return false
+        val friendPublicKey = friendRes.publicKey
 
+        val friend =  Friend(
+            friendRes.username,
+            friendPublicKey,
+        )
+
+        Log.d(TAG, "insertFriend: inserted... i think ")
+        friendRepository.insertFriend(friend)
+        return true
 
     }
 

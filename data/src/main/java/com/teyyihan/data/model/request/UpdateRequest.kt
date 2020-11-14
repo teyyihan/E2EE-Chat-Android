@@ -6,8 +6,3 @@ data class UpdateRequest(
     val publicKey: String?,
     val fcmToken: String
 )
-
-data class UpdateRequestLocal(
-    val fcmToken: String,
-    val keyPair: KeyPair?
-)

@@ -4,6 +4,9 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
+import com.teyyihan.data.util.convertToPrivateKey
+import com.teyyihan.data.util.convertToPublicKey
+import com.teyyihan.data.util.convertToString
 import java.security.PrivateKey
 import java.security.PublicKey
 

@@ -1,24 +1,24 @@
 package com.teyyihan.e2ee_chat.ui.auth.register
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.iid.FirebaseInstanceId
-import com.teyyihan.core.util.*
 import com.teyyihan.data.model.UserLocal
+import com.teyyihan.data.util.KeyUtil
 import com.teyyihan.data.util.Resource
 import com.teyyihan.domain.friend.util.AuthStep
 import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.e2ee_chat.util.awaitTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.security.KeyPair
 
 class RegisterViewModel @ViewModelInject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val keyPair = KeyUtil.generateKeys()
     private val TAG = "teooo RegisterViewModel"
 
     fun registerFlow(username: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -29,22 +29,21 @@ class RegisterViewModel @ViewModelInject constructor(
             return@launch
         }
 
-        val publicKeyStr = keyPair.public.convertToString()
-        if (publicKeyStr == null) {
-            sessionManager.setAuthStateError(errorMessage = "Something went wrong with public key", authStep = AuthStep.REGISTER)
-            return@launch
+
+        val keyPair = withContext(Dispatchers.Default){
+            KeyUtil.generateKeypairAsPrior()
         }
 
-        val signUpResponse = sessionManager.signUp(username, password, fcmToken, publicKeyStr)
+        val signUpResponse = sessionManager.signUp(username, password, fcmToken, keyPair.public)
         if(signUpResponse is Resource.Success){
-            getTokenAndUpdate(username, password, fcmToken)
+            getTokenAndUpdate(username, password, fcmToken, keyPair)
         }else if(signUpResponse is Resource.GenericError){
             sessionManager.setAuthStateError(signUpResponse.errorMessage,signUpResponse.exception, AuthStep.REGISTER)
         }
 
     }
 
-    private suspend fun getTokenAndUpdate(username: String, password: String, fcmToken: String) {
+    private suspend fun getTokenAndUpdate(username: String, password: String, fcmToken: String, keyPair: KeyPair) {
 
         val tokenResponse = sessionManager.getToken(username, password)
         if(tokenResponse is Resource.Success){

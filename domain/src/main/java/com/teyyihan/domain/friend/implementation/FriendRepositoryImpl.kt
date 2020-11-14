@@ -13,9 +13,6 @@ class FriendRepositoryImpl(
     override fun getAllFriends(): LiveData<List<FriendRepresentation>>
         = friendLocalDataSource.getAllFriends()
 
-//    override fun getAllFriends(): LiveData<List<Friend>>
-//        = friendLocalDataSource.getAllFriends()
-
     override suspend fun getFriend(username: String): Friend?
         = friendLocalDataSource.getFriend(username)
 

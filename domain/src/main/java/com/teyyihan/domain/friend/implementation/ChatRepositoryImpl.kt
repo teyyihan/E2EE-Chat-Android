@@ -1,7 +1,6 @@
 package com.teyyihan.domain.friend.implementation
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -11,11 +10,13 @@ import com.teyyihan.data.model.entity.FriendRepresentation
 import com.teyyihan.data.model.entity.Message
 import com.teyyihan.data.model.request.MessageRequest
 import com.teyyihan.data.remote.abstraction.ResourceRemoteDataSource
+import com.teyyihan.data.util.KeyUtil
 import com.teyyihan.data.util.Resource
 import com.teyyihan.domain.friend.abstraction.ChatRepository
 import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.domain.friend.util.safeApiCall
 import kotlinx.coroutines.flow.Flow
+import javax.crypto.Cipher
 
 class ChatRepositoryImpl(
     private val messageLocalDataSource: MessageLocalDataSource,
@@ -27,13 +28,12 @@ class ChatRepositoryImpl(
 
     override suspend fun sendMessage(
         text: String,
-        encryptedText: ByteArray,
         friend: FriendRepresentation,
         userLocal: UserLocal
     ): Resource<Unit?> {
 
         // Insert into db
-        val localResponse = messageLocalDataSource.insertMessage(
+        messageLocalDataSource.insertMessage(
             Message(
                 friendUsername = friend.friendUsername,
                 body = text,
@@ -41,21 +41,27 @@ class ChatRepositoryImpl(
                 byMe = true
             )
         )
-        Log.d(TAG, "sendMessage: message inserted if 1 then successful => $localResponse")
+
+        val oneTimeKeyPair = KeyUtil.generateKeypairAsCustomer(friend.friendPublicKey)
+        val oneTimeAgreement = KeyUtil.keyAgreement(oneTimeKeyPair.private,friend.friendPublicKey)
+        val oneTimeAesKey = KeyUtil.generateSharedAESKey(oneTimeAgreement)
+        val oneTimeIV = KeyUtil.getRandomNonce()
+
+        val encryptedText = KeyUtil.encryptOrDecrypt(text = text.toByteArray(),oneTimeAesKey,Cipher.ENCRYPT_MODE,oneTimeIV)
 
         // Send to remote server
-        val remoteResponse = safeApiCall(sessionManager) {
+        return safeApiCall(sessionManager) {
             resourceRemoteDataSource.sendMessage(
                 it,
                 MessageRequest(
                     toUsername = friend.friendUsername,
                     fromUsername = userLocal.username,
-                    cipherText = encryptedText
+                    cipherText = encryptedText,
+                    senderPublicKey = oneTimeKeyPair.public,
+                    messageSpecificIV = oneTimeIV
                 )
             )
         }
-
-        return remoteResponse
 
     }
 

@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.firebase.iid.FirebaseInstanceId
-import com.teyyihan.core.util.*
 import com.teyyihan.data.model.UserLocal
 import com.teyyihan.data.model.request.UpdateRequest
 import com.teyyihan.data.model.response.TokenResponse
+import com.teyyihan.data.util.KeyUtil
 import com.teyyihan.data.util.Resource
+import com.teyyihan.data.util.convertToString
 import com.teyyihan.domain.friend.util.AuthStep
 import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.e2ee_chat.util.awaitTask
@@ -44,10 +45,9 @@ class LoginViewModel @ViewModelInject constructor(
         username: String
     ) {
         Log.d(TAG, "updateMe: 5555555555555555")
-        var keyPair : KeyPair
-        withContext(Dispatchers.Default){
-            keyPair = KeyUtil.generateKeys()
-        }
+
+        val keyPair = KeyUtil.generateKeypairAsPrior()
+
         Log.d(TAG, "updateMe: 66666666666666")
 
         val fcmToken = FirebaseInstanceId.getInstance().instanceId.awaitTask()?.token

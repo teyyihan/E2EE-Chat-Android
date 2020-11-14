@@ -6,9 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import androidx.paging.toLiveData
-import com.teyyihan.core.db.MainDatabase
-import com.teyyihan.core.util.KeyUtil.encryptMessage
 import com.teyyihan.domain.friend.util.SessionManager
 import com.teyyihan.data.model.entity.FriendRepresentation
 import com.teyyihan.data.model.entity.Message
@@ -26,10 +23,9 @@ class ChatViewModel @ViewModelInject constructor(
 
     fun sendMessage(text: String, friend: FriendRepresentation) = viewModelScope.launch(Dispatchers.IO) {
         val me = sessionManager.getUser()
-        val encryptedText = text.encryptMessage(friend.sharedSecretKey)
 
-        if(me != null && encryptedText != null){
-            chatRepository.sendMessage(text,encryptedText,friend,me).let {
+        if(me != null){
+            chatRepository.sendMessage(text,friend,me).let {
                 when (it) {
                     is Resource.Success -> {
                         Log.d(TAG, "sendMessage: success ")

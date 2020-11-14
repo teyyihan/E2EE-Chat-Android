@@ -37,15 +37,9 @@ object CacheModule {
 
 
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): MainDatabase{
-//        return Room.databaseBuilder(
-//            context,
-//            MainDatabase::class.java,
-//            Consts.DATABASE_NAME
-//        )
-//            .build()
-        return MainDatabase.getInstance(context)
-    }
+    fun provideDatabase(@ApplicationContext context: Context): MainDatabase
+            = MainDatabase.getInstance(context)
+
 
     private val keyGenParameterSpec = KeyGenParameterSpec.Builder(
         MasterKey.DEFAULT_MASTER_KEY_ALIAS,

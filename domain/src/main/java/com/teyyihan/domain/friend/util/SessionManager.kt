@@ -16,6 +16,7 @@ import com.teyyihan.data.util.Resource
 import com.teyyihan.domain.friend.Consts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.security.PublicKey
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -102,7 +103,7 @@ class SessionManager @Inject constructor(
         username: String,
         password: String,
         fcmToken: String,
-        publicKey: String
+        publicKey: PublicKey
     ): Resource<SignUpResponse> {
         return try {
             val signUpResponse = authRemoteDataSource.signUp(

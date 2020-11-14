@@ -10,13 +10,11 @@ data class Friend(
     @PrimaryKey
     var friendUsername: String,
     var friendPublicKey: PublicKey,
-    var sharedSecretKey: ByteArray,
 ) : Serializable
 
 data class FriendRepresentation(
     var friendUsername: String,
     var friendPublicKey: PublicKey,
-    var sharedSecretKey: ByteArray,
     @androidx.room.ColumnInfo(name = "body")
     var lastMessage : String? = null,
     @androidx.room.ColumnInfo(name = "date")

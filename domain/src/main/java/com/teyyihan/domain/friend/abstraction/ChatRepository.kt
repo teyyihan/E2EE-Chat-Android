@@ -13,7 +13,6 @@ interface ChatRepository {
 
     suspend fun sendMessage(
         text: String,
-        encryptedText: ByteArray,
         friend: FriendRepresentation,
         userLocal: UserLocal
     ): Resource<Unit?>
